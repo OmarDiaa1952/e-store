@@ -169,3 +169,4 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 alter table product add status varchar(10);
 alter table category add status varchar(10);
+alter table customer add unique(userName);
