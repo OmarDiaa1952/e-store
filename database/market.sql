@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema market
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema market
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `market` DEFAULT CHARACTER SET utf8 ;
+USE `market` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`customer`
+-- Table `market`.`customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`customer` (
+CREATE TABLE IF NOT EXISTS `market`.`customer` (
   `customer_id` INT NOT NULL,
   `Fname` VARCHAR(45) NULL,
   `Lname` VARCHAR(45) NULL,
@@ -33,25 +33,25 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`cart`
+-- Table `market`.`cart`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`cart` (
+CREATE TABLE IF NOT EXISTS `market`.`cart` (
   `cart_id` INT NOT NULL,
   `customer_id` INT NULL,
   PRIMARY KEY (`cart_id`),
   INDEX `customer_id_idx` (`customer_id` ASC) VISIBLE,
   CONSTRAINT `customer_id`
     FOREIGN KEY (`customer_id`)
-    REFERENCES `mydb`.`customer` (`customer_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `market`.`customer` (`customer_id`)
+    ON DELETE cascade
+    ON UPDATE cascade)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`category`
+-- Table `market`.`category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`category` (
+CREATE TABLE IF NOT EXISTS `market`.`category` (
   `idcategory` INT NOT NULL,
   `Cname` VARCHAR(45) NULL,
   PRIMARY KEY (`idcategory`))
@@ -59,9 +59,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`product`
+-- Table `market`.`product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`product` (
+CREATE TABLE IF NOT EXISTS `market`.`product` (
   `product_id` INT NOT NULL,
   `Pname` VARCHAR(45) NULL,
   `category_id` INT NULL,
@@ -71,81 +71,80 @@ CREATE TABLE IF NOT EXISTS `mydb`.`product` (
   INDEX `category_id_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `category_id`
     FOREIGN KEY (`category_id`)
-    REFERENCES `mydb`.`category` (`idcategory`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `market`.`category` (`idcategory`)
+    ON DELETE cascade
+    ON UPDATE cascade)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`cart_product`
+-- Table `market`.`cart_product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`cart_product` (
+CREATE TABLE IF NOT EXISTS `market`.`cart_product` (
   `p_id` INT NOT NULL,
   `c_id` INT NOT NULL,
   `quantity` INT NULL,
-  `quantity` VARCHAR(45) NULL,
   PRIMARY KEY (`p_id`, `c_id`),
   INDEX `p_id_idx` (`p_id` ASC) VISIBLE,
   INDEX `c_id_idx` (`c_id` ASC) VISIBLE,
   CONSTRAINT `p_id`
     FOREIGN KEY (`p_id`)
-    REFERENCES `mydb`.`product` (`product_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `market`.`product` (`product_id`)
+    ON DELETE cascade
+    ON UPDATE cascade,
   CONSTRAINT `c_id`
     FOREIGN KEY (`c_id`)
-    REFERENCES `mydb`.`cart` (`cart_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `market`.`cart` (`cart_id`)
+    ON DELETE cascade
+    ON UPDATE cascade)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`order`
+-- Table `market`.`order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`order` (
+CREATE TABLE IF NOT EXISTS `market`.`order` (
   `order_id` INT NOT NULL,
-  `customer_id` INT NULL,
+  `cust_id` INT NULL,
   `ordered_at` DATETIME NULL,
   `total_amount` DECIMAL(15,2) NULL,
   PRIMARY KEY (`order_id`),
-  INDEX `customer_id_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `customer_id`
-    FOREIGN KEY (`customer_id`)
-    REFERENCES `mydb`.`customer` (`customer_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `cust_id_idx` (`cust_id` ASC) VISIBLE,
+  CONSTRAINT `cust_id`
+    FOREIGN KEY (`cust_id`)
+    REFERENCES `market`.`customer` (`customer_id`)
+    ON DELETE cascade
+    ON UPDATE cascade)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`order_product`
+-- Table `market`.`order_product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`order_product` (
-  `p_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `market`.`order_product` (
+  `pro_id` INT NOT NULL,
   `o_id` INT NOT NULL,
   `quantity` INT NULL,
-  PRIMARY KEY (`p_id`, `o_id`),
-  INDEX `p_id_idx` (`p_id` ASC) VISIBLE,
+  PRIMARY KEY (`pro_id`, `o_id`),
+  INDEX `pro_id_idx` (`pro_id` ASC) VISIBLE,
   INDEX `o_id_idx` (`o_id` ASC) VISIBLE,
-  CONSTRAINT `p_id`
-    FOREIGN KEY (`p_id`)
-    REFERENCES `mydb`.`product` (`product_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  CONSTRAINT `pro_id`
+    FOREIGN KEY (`pro_id`)
+    REFERENCES `market`.`product` (`product_id`)
+    ON DELETE cascade
+    ON UPDATE cascade,
   CONSTRAINT `o_id`
     FOREIGN KEY (`o_id`)
-    REFERENCES `mydb`.`order` (`order_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `market`.`order` (`order_id`)
+    ON DELETE cascade
+    ON UPDATE cascade)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`admin`
+-- Table `market`.`admin`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`admin` (
+CREATE TABLE IF NOT EXISTS `market`.`admin` (
   `idadmin` INT NOT NULL,
   `Fname` VARCHAR(45) NULL,
   `Lname` VARCHAR(45) NULL,
@@ -157,9 +156,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`System_wallet`
+-- Table `market`.`System_wallet`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`System_wallet` (
+CREATE TABLE IF NOT EXISTS `market`.`System_wallet` (
   `balance` INT NOT NULL,
   PRIMARY KEY (`balance`))
 ENGINE = InnoDB;
@@ -168,3 +167,5 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+alter table product add status varchar(10);
+alter table category add status varchar(10);
