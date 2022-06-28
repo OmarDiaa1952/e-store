@@ -5,9 +5,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
 
-public class CategeroiesAdminController implements Initializable {
+public class ProductsAdminController implements Initializable {
 
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
