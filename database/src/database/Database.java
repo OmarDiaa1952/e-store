@@ -23,7 +23,7 @@ public class Database {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/market";
     static final String USER = "root";
-    static final String PASS = "1234";
+    static final String PASS = "root";
     static boolean e = false;
     static Database d;
 
@@ -68,7 +68,9 @@ public class Database {
            
             else{              
                 String sqlInsert = "insert into customer values ("+id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+",0)";
-                int countInserted = stmt.executeUpdate(sqlInsert);  
+                int countInserted = stmt.executeUpdate(sqlInsert);
+                sqlInsert = "insert into cart values ("+id+","+id+")";
+                countInserted = stmt.executeUpdate(sqlInsert);                  
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Added");
@@ -121,19 +123,13 @@ public class Database {
     synchronized void addProduct(int product_id,String pname, int category_id, int price, int stock, String status){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
-            PreparedStatement psChecknameExists = null;
             PreparedStatement psCheckidExists = null;
             ResultSet idSet = null;
-            ResultSet nameSet = null;
             psCheckidExists = conn.prepareStatement("SELECT * FROM product WHERE product_id = ?");
             psCheckidExists.setString(1,""+ product_id);
             idSet = psCheckidExists.executeQuery();
            
-            psChecknameExists = conn.prepareStatement("SELECT * FROM product WHERE Pname = ?");
-            psChecknameExists.setString(1, pname);
-            nameSet = psChecknameExists.executeQuery();
-           
-            if(nameSet.isBeforeFirst() || idSet.isBeforeFirst()){               
+            if(idSet.isBeforeFirst()){               
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "already exists");
@@ -144,7 +140,6 @@ public class Database {
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Added");
-
             }
 
        } catch (SQLException e) {
@@ -185,6 +180,55 @@ public class Database {
        }    
 
     }  
+    
+    synchronized void addOrder(int order_id,int product_id,int customer_id, String date, int quantity){
+       try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+            PreparedStatement psCheckOrderidExists = null;
+            ResultSet orderidSet = null;
+            String strSelect = "select stock from product where product_id ="+product_id +";";
+            ResultSet r = stmt.executeQuery(strSelect);
+            int stock = 0;
+            while(r.next()){
+                stock = r.getInt("stock");
+            }
+            if(quantity > stock){
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "Not enough in stock");
+            }
+            else{
+                String sqlInsert = "update product set stock = stock - "+quantity+" where product_id = " + product_id +";";
+                int countInserted = stmt.executeUpdate(sqlInsert);
+            }              
+            psCheckOrderidExists = conn.prepareStatement("SELECT * FROM _order WHERE order_id = ?");
+            psCheckOrderidExists.setString(1, ""+ order_id);
+            orderidSet = psCheckOrderidExists.executeQuery();
+           int total_amount = 0;
+            if(!orderidSet.isBeforeFirst()){               
+                String sqlInsert = "insert into _order values ("+order_id+","+customer_id+",\""+date+"\","+0+")";
+                int countInserted = stmt.executeUpdate(sqlInsert);                
+            }
+            String sqlInsert = "insert into order_product values ("+product_id+","+order_id+","+quantity+")";
+            int countInserted = stmt.executeUpdate(sqlInsert);
+            sqlInsert = "select price from product where product_id = "+product_id+";";
+            r = stmt.executeQuery(sqlInsert);
+            int price = 0;
+            while(r.next()){
+                price = r.getInt("price");               
+                System.out.println(price);
+            }
+            total_amount = price * quantity;
+            sqlInsert = "update _order set total_amount = total_amount + "+total_amount+" where order_id = " + order_id +";";
+            countInserted = stmt.executeUpdate(sqlInsert);            
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "Added");
+            
+       } catch (SQLException e) {
+          e.printStackTrace();
+       }    
+    }
 
     synchronized int count_users(){
             try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -397,6 +441,36 @@ public class Database {
         return "doesn't exist";
     }
     
+    synchronized String get_product_quantity(int product_id){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+           Statement stmt = conn.createStatement();){
+              String strSelect = "select stock from product where product_id ="+product_id;
+              ResultSet r = stmt.executeQuery(strSelect);
+              while(r.next()){
+                  return r.getString("quantity");
+              }
+        } catch (SQLException e) {
+           e.printStackTrace();
+           return "doesn't exist";
+        }    
+        return "doesn't exist";
+    }
+    
+    synchronized String get_product_status(int product_id){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+           Statement stmt = conn.createStatement();){
+              String strSelect = "select status from product where product_id ="+product_id;
+              ResultSet r = stmt.executeQuery(strSelect);
+              while(r.next()){
+                  return r.getString("status");
+              }
+        } catch (SQLException e) {
+           e.printStackTrace();
+           return "doesn't exist";
+        }    
+        return "doesn't exist";
+    }
+    
     synchronized String get_order_product_quantity(int order_id,int product_id){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
            Statement stmt = conn.createStatement();){
@@ -451,7 +525,20 @@ public class Database {
           e.printStackTrace();
        }          
     }
-     
+
+    synchronized void increase_stock(int product_id, int amount){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){               
+            String sqlInsert = "update product set stock = stock + "+amount+" where product_id = " + product_id +";";
+            int countInserted = stmt.executeUpdate(sqlInsert);
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "Added to balance");       
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }          
+    }
+    
     synchronized void clear_cart(int cart_id){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
@@ -600,7 +687,6 @@ public class Database {
        }          
 
     }
-
     
     synchronized void delete_user(int id){
                     try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -626,7 +712,8 @@ public class Database {
     public static void main(String[] args) {
         // TODO code application logic here
         Database db = Database.create();
-//        db.addUser(2,"ahmed123", "12345", "ahmed1", "ibrahim", "ahmed1@gmail.com");
+        //db.addOrder(5, 2, 1,"2022-06-15", 2);
+//        db.addUser(3,"Esam123", "12124", "Esam1", "ali", "esam1@gmail.com");
 //        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
 //        db.addProduct(2,"labtop",1,5000,3,"active");
 //        db.addCategory(1,"Sports","active");
