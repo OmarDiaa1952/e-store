@@ -745,6 +745,54 @@ public class Database {
 
     }
     
+    synchronized void change_CategoryName(int id, String category_name){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlInsert = "select idcategory from category where idcategory = " + id +";";
+        ResultSet r = stmt.executeQuery(sqlInsert);
+        if(r.isBeforeFirst()){
+            sqlInsert = "update category set Cname = \""+category_name+"\" where idcategory = " + id +";";
+            int countInserted = stmt.executeUpdate(sqlInsert);  
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "Category updated");             
+        }
+        else{
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "Category doesn't exist"); 
+        }
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }
+    
+    synchronized void change_CategoryStatus(int id, String status){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlInsert = "select idcategory from category where idcategory = " + id +";";
+        ResultSet r = stmt.executeQuery(sqlInsert);
+        if(r.isBeforeFirst()){
+            sqlInsert = "update category set status = \""+status+"\" where idcategory = " + id +";";
+            int countInserted = stmt.executeUpdate(sqlInsert);
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "Category updated");             
+        }
+        else{
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "Category doesn't exist"); 
+        }
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }
+    
     synchronized void delete_user(int id){
                     try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
@@ -766,15 +814,90 @@ public class Database {
 
     }
     
+    synchronized int[] searchByCategory(String category){
+                int[] arr = {};
+                int n = 0;
+                try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                Statement stmt = conn.createStatement();){
+                String sqlSelect = "select idcategory from category where Cname = \""+ category+"\";";
+                ResultSet r = stmt.executeQuery(sqlSelect);
+                int category_id = 0;
+                if(r.isBeforeFirst()){
+                    while(r.next()){
+                        category_id = r.getInt("idcategory");
+                    }
+                    String str = "select count(product_id) as c from product group by category_id having category_id = "+ category_id;
+                    ResultSet rs = stmt.executeQuery(str);
+                    rs.next();
+                    n = rs.getInt("c");
+                    arr = new int[n];
+                    sqlSelect = "select product_id from product where category_id = "+ category_id+";";
+                    r = stmt.executeQuery(sqlSelect);
+                    int i = 0;
+                    while(r.next()){
+                        arr[i++] = r.getInt("product_id");
+                    }                       
+                }
+                else{
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "Doesn't exist");                  
+                }
+            } catch (SQLException e) {
+               e.printStackTrace();
+            }    
+           return arr;     
+    }
+    
+    synchronized int[] searchByName(String name){
+                int[] arr = {};
+                int n = 0;
+                try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                Statement stmt = conn.createStatement();){
+                    String strSelect = "select product_id from product where Pname like \"%"+name+"%\"";
+                    ResultSet r = stmt.executeQuery(strSelect);
+                    if(r.isBeforeFirst()){
+                        String str = "select count(product_id) as c from product where Pname like \"%"+name+"%\"";
+                        ResultSet rs = stmt.executeQuery(str); 
+                        rs.next();
+                        n = rs.getInt("c");
+                        strSelect = "select product_id from product where Pname like \"%"+name+"%\"";
+                        r = stmt.executeQuery(strSelect);
+                        arr = new int[n];
+                        int i = 0;
+                        while(r.next()){
+                        arr[i++] = r.getInt("product_id");
+                        }                     
+                    }
+                        
+                 else{
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "Doesn't exist");                  
+                }
+            } catch (SQLException e) {
+               e.printStackTrace();
+            }    
+           return arr;     
+    }
+    
     public static void main(String[] args) {
         // TODO code application logic here
         Database db = Database.create();
+        //db.change_CategoryStatus(1,"active");
+//        int[] arr = db.searchByName("ball");
+//        for(int i = 0; i < arr.length; i ++){
+//            System.out.println(arr[i]);
+//            System.out.println(db.get_product_name(arr[i]));
+//        }
+        
         //db.addOrder(8, 1, 1,"2022-06-28 6:06:30", 2);
         //db.increase_stock(1, 5);
-        db.addToCart(1, 1, 3);
+        //db.addToCart(1, 1, 3);
 //        db.addUser(3,"Esam123", "12124", "Esam1", "ali", "esam1@gmail.com");
 //        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
 //        db.addProduct(2,"labtop",1,5000,3,"active");
+//        db.addProduct(3, "basketball", 1, 100,10, "active");
 //        db.addCategory(1,"Sports","active");
         //db.addCategory(2,"electronics","active");
 //        db.delete_user(1);
