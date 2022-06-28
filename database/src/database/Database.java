@@ -181,6 +181,62 @@ public class Database {
 
     }  
     
+    synchronized void addToCart(int product_id, int cart_id, int quantity){
+       try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+            PreparedStatement psCheckidExists = null;
+            ResultSet idSet = null;
+            String strSelect = "select stock from product where product_id ="+product_id +";";
+            ResultSet r = stmt.executeQuery(strSelect);
+            int stock = 0;
+            while(r.next()){
+                stock = r.getInt("stock");
+            }
+            if(quantity > stock){
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "Not enough in stock");
+                return;
+            }            
+            psCheckidExists = conn.prepareStatement("SELECT * FROM cart_product WHERE p_id = ? AND c_id = ?");
+            psCheckidExists.setInt(1,product_id);
+            psCheckidExists.setInt(2,cart_id);
+            idSet = psCheckidExists.executeQuery();
+           
+            if(idSet.isBeforeFirst()){
+                strSelect = "select quantity from cart_product where p_id = "+product_id+" and c_id = "+cart_id+";";
+                r = stmt.executeQuery(strSelect);
+                int q=0;
+                 while(r.next()){
+                    q = r.getInt(product_id);
+                }                
+                if(q+quantity > stock){
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "Not enough in stock");
+                    return;                
+                }
+                else{
+                    String sqlInsert = "update cart_product set quantity = quantity + "+quantity+" where p_id = " + product_id +" and c_id = "+cart_id+";";
+                    int countInserted = stmt.executeUpdate(sqlInsert);                
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "increased quantity");
+                }
+            }
+            else{  
+                String sqlInsert = "insert into cart_product values ("+product_id+","+cart_id+","+quantity+")";
+                int countInserted = stmt.executeUpdate(sqlInsert);
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "Added");
+            }
+
+       } catch (SQLException e) {
+          e.printStackTrace();
+       }    
+    }
+    
     synchronized void addOrder(int order_id,int product_id,int customer_id, String date, int quantity){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
@@ -196,6 +252,7 @@ public class Database {
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Not enough in stock");
+                return;
             }
             else{
                 String sqlInsert = "update product set stock = stock - "+quantity+" where product_id = " + product_id +";";
@@ -533,7 +590,7 @@ public class Database {
             int countInserted = stmt.executeUpdate(sqlInsert);
             JFrame parent = new JFrame();
             parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Added to balance");       
+            JOptionPane.showMessageDialog(parent, "Added to stock");       
         } catch (SQLException e) {
           e.printStackTrace();
         }          
@@ -712,7 +769,9 @@ public class Database {
     public static void main(String[] args) {
         // TODO code application logic here
         Database db = Database.create();
-        //db.addOrder(5, 2, 1,"2022-06-15", 2);
+        //db.addOrder(8, 1, 1,"2022-06-28 6:06:30", 2);
+        //db.increase_stock(1, 5);
+        db.addToCart(1, 1, 3);
 //        db.addUser(3,"Esam123", "12124", "Esam1", "ali", "esam1@gmail.com");
 //        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
 //        db.addProduct(2,"labtop",1,5000,3,"active");
