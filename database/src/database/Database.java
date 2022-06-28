@@ -162,6 +162,21 @@ public class Database {
             }    
             return "doesn't exist";
     }
+    
+    synchronized String get_user_password(int id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select pword from customer where customer_id = "+id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      return r.getString("pword");
+                  }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return "doesn't exist";
+            }    
+            return "doesn't exist";
+    }
 
     synchronized String get_user_name(int id){
             try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -379,13 +394,24 @@ public class Database {
             }    
             return "doesn't exist";
     }
+    
+    synchronized void change_password(int id, String password){
+                try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+         String sqlInsert = "update customer set pword = \""+password+"\" where customer_id = " + id +";";
+         int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }
 
     
     public static void main(String[] args) {
         // TODO code application logic here
         Database db = Database.create();
         //db.addUser(1,"ahmed12", "12345", "ahmed1", "ibrahim", "ahmed@gmail.com");
-        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
+//        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
         //db.addProduct(2,"labtop",2,5000,3,"active");
         //db.addCategory(1,"Sports","active");
         //db.addCategory(2,"electronics","active");
@@ -403,11 +429,12 @@ public class Database {
     //            
     //        }
     
-    System.out.println(db.get_admin_firstName(2));
-    System.out.println(db.get_admin_lastName(2));
-    System.out.println(db.get_admin_username(2));
-    System.out.println(db.get_admin_email(2));
-
+//    System.out.println(db.get_admin_firstName(2));
+//    System.out.println(db.get_admin_lastName(2));
+//    System.out.println(db.get_admin_username(2));
+//    System.out.println(db.get_admin_email(2));\
+//            db.change_password(1,"1234a");
+//            System.out.println(db.get_user_password(1));
     }
     
 }
