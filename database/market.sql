@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `market`.`customer` (
   `email` VARCHAR(45) NULL,
   `pword` VARCHAR(45) NULL,
   `balance` INT NULL,
+  unique(userName),
   PRIMARY KEY (`customer_id`))
 ENGINE = InnoDB;
 
@@ -54,6 +55,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `market`.`category` (
   `idcategory` INT NOT NULL,
   `Cname` VARCHAR(45) NULL,
+  `status` varchar(10),
   PRIMARY KEY (`idcategory`))
 ENGINE = InnoDB;
 
@@ -67,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `market`.`product` (
   `category_id` INT NULL,
   `price` DECIMAL(15,2) NULL,
   `stock` INT NULL,
+  `status` varchar(10),
   PRIMARY KEY (`product_id`),
   INDEX `category_id_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `category_id`
@@ -103,7 +106,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `market`.`order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `market`.`order` (
+CREATE TABLE IF NOT EXISTS `market`.`_order` (
   `order_id` INT NOT NULL,
   `cust_id` INT NULL,
   `ordered_at` DATETIME NULL,
@@ -167,6 +170,3 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-alter table product add status varchar(10);
-alter table category add status varchar(10);
-alter table customer add unique(userName);
