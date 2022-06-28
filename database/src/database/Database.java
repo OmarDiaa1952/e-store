@@ -21,7 +21,7 @@ public class Database {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/market";
     static final String USER = "root";
-    static final String PASS = "root";
+    static final String PASS = "1234";
     static boolean e = false;
     static Database d;
 
@@ -320,11 +320,72 @@ public class Database {
        }          
     }
 
+    synchronized String get_admin_firstName(int id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select Fname from admin where idadmin = "+id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      return r.getString("Fname");
+                  }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return "doesn't exist";
+            }    
+            return "doesn't exist";
+    }
+
+    synchronized String get_admin_lastName(int id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select Lname from admin where idadmin = "+id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      return r.getString("Lname");
+                  }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return "doesn't exist";
+            }    
+            return "doesn't exist";
+    }   
+
+    synchronized String get_admin_username(int id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select userName from admin where idadmin = "+id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      return r.getString("userName");
+                  }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return "doesn't exist";
+            }    
+            return "doesn't exist";
+    }
+
+    synchronized String get_admin_email(int id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select email from admin where idadmin = "+id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      return r.getString("email");
+                  }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return "doesn't exist";
+            }    
+            return "doesn't exist";
+    }
+
+    
     public static void main(String[] args) {
         // TODO code application logic here
         Database db = Database.create();
         //db.addUser(1,"ahmed12", "12345", "ahmed1", "ibrahim", "ahmed@gmail.com");
-        //db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
+        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
         //db.addProduct(2,"labtop",2,5000,3,"active");
         //db.addCategory(1,"Sports","active");
         //db.addCategory(2,"electronics","active");
@@ -341,6 +402,11 @@ public class Database {
     //            System.out.println(db.get_orderTotalAmount(a[i]));
     //            
     //        }
+    
+    System.out.println(db.get_admin_firstName(2));
+    System.out.println(db.get_admin_lastName(2));
+    System.out.println(db.get_admin_username(2));
+    System.out.println(db.get_admin_email(2));
 
     }
     
