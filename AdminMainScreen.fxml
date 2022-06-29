@@ -123,7 +123,7 @@
                   <Font name="SansSerif Regular" size="22.0" />
                </font>
             </Label>
-            <Button fx:id="btnLogOut" layoutX="563.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: #20120F;">
+            <Button fx:id="btnLogOut" layoutX="563.0" layoutY="13.0" mnemonicParsing="false" onAction="#btnLogOut" style="-fx-background-color: #20120F;">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -152,7 +152,7 @@
             </Pane>
             <VBox layoutY="191.0" prefHeight="360.0" prefWidth="218.0" style="-fx-background-color: #20120f;">
                <children>
-                  <Button fx:id="btnCategory" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Categories     " textAlignment="CENTER" textFill="#f8f4f4">
+                  <Button fx:id="btnCategory" graphicTextGap="20.0" mnemonicParsing="false" onAction="#btnCategory" prefHeight="70.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Categories     " textAlignment="CENTER" textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
@@ -167,7 +167,7 @@
                         <Insets bottom="5.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnProducts" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Products        " textFill="#f8f4f4">
+                  <Button fx:id="btnProducts" graphicTextGap="20.0" mnemonicParsing="false" onAction="#btnProducts" prefHeight="70.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Products        " textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
@@ -182,7 +182,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnUsers" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Users              " textFill="#f8f4f4">
+                  <Button fx:id="btnUsers" graphicTextGap="20.0" mnemonicParsing="false" onAction="#btnUsers" prefHeight="70.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Users              " textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>

@@ -26,7 +26,7 @@
             </Label>
          </children>
       </Pane>
-      <Button layoutY="14.0" minWidth="46.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="60.0" style="-fx-background-color: #20120F;">
+      <Button fx:id="btnBack" layoutY="8.0" minWidth="46.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="16.0" prefWidth="46.0" style="-fx-background-color: #20120F;">
          <graphic>
             <ImageView fitHeight="27.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -53,9 +53,9 @@
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="26.0" prefWidth="119.0" promptText="Enter Old Password" GridPane.columnIndex="1" />
-                  <TextField promptText="Enter New Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField promptText="Retype New Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtFieldOldPass" prefHeight="26.0" prefWidth="119.0" promptText="Enter Old Password" GridPane.columnIndex="1" />
+                  <TextField fx:id="txtFieldNewPass" promptText="Enter New Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtFieldRetypeNewPass" promptText="Retype New Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label prefHeight="27.0" prefWidth="113.0" text="New Password" textFill="#f8f4f4" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
@@ -73,7 +73,7 @@
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
             </Label>
-            <Button layoutX="221.0" layoutY="149.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="60.0" style="-fx-background-radius: 8;" text="Edit">
+            <Button fx:id="btnEditPass" layoutX="221.0" layoutY="149.0" mnemonicParsing="false" onAction="#btnEditPass" prefHeight="23.0" prefWidth="60.0" style="-fx-background-radius: 8;" text="Edit">
                <font>
                   <Font name="SansSerif Bold" size="12.0" />
                </font>
@@ -98,8 +98,8 @@
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="26.0" prefWidth="119.0" promptText="Enter Your Password" GridPane.columnIndex="1" />
-                  <TextField promptText="Retype Your Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtFieldPass" prefHeight="26.0" prefWidth="119.0" promptText="Enter Your Password" GridPane.columnIndex="1" />
+                  <TextField fx:id="txtFieldRetypePass" promptText="Retype Your Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label prefHeight="27.0" prefWidth="113.0" text="Retype Password" textFill="#f8f4f4" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
@@ -107,7 +107,7 @@
                   </Label>
                </children>
             </GridPane>
-            <Button layoutX="221.0" layoutY="295.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="60.0" style="-fx-background-radius: 8;" text="Delete">
+            <Button fx:id="btnDeleteAccount" layoutX="221.0" layoutY="295.0" mnemonicParsing="false" onAction="#btnDeleteAccount" prefHeight="23.0" prefWidth="60.0" style="-fx-background-radius: 8;" text="Delete">
                <font>
                   <Font name="SansSerif Bold" size="12.0" />
                </font>
@@ -146,12 +146,12 @@
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="28.0" prefWidth="134.0" text="Retrieve first name" textFill="#f8f4f4" GridPane.columnIndex="1">
+                  <Label fx:id="lblFirstName" prefHeight="28.0" prefWidth="134.0" text="Retrieve first name" textFill="#f8f4f4" GridPane.columnIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="28.0" prefWidth="138.0" text="Retrieve last name" textFill="#f8f4f4" GridPane.columnIndex="3">
+                  <Label fx:id="lblLastName" prefHeight="28.0" prefWidth="138.0" text="Retrieve last name" textFill="#f8f4f4" GridPane.columnIndex="3">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
@@ -176,22 +176,22 @@
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="104.0" layoutY="16.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve user name" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="lblUserName" layoutX="104.0" layoutY="16.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve user name" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="104.0" layoutY="55.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve email name" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="lblEmail" layoutX="104.0" layoutY="55.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve email name" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="104.0" layoutY="95.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve balance" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label fx:id="lblWalletBalance" layoutX="104.0" layoutY="95.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve balance" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="104.0" layoutY="136.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve total orders" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label fx:id="lblTotUserOrders" layoutX="104.0" layoutY="136.0" prefHeight="28.0" prefWidth="134.0" text="Retrieve total orders" textFill="#f8f4f4" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font name="SansSerif Bold" size="13.0" />
                      </font>
@@ -200,7 +200,7 @@
             </GridPane>
             <HBox alignment="CENTER" layoutX="117.0" layoutY="256.0" prefHeight="32.0" prefWidth="308.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="110.0" style="-fx-background-radius: 8;" text="Show Orders" textAlignment="CENTER">
+                  <Button fx:id="btnShowOrders" mnemonicParsing="false" onAction="#btnShowOrders" prefHeight="23.0" prefWidth="110.0" style="-fx-background-radius: 8;" text="Show Orders" textAlignment="CENTER">
                      <font>
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
@@ -208,7 +208,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="110.0" style="-fx-background-radius: 8;" text="E-Wallet">
+                  <Button fx:id="BtnWallet" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#BtnWallet" prefHeight="20.0" prefWidth="110.0" style="-fx-background-radius: 8;" text="E-Wallet">
                      <font>
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>

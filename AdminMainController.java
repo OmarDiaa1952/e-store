@@ -113,6 +113,9 @@ public class AdminMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        // initialize labels from database
+        
     }    
     
 }

@@ -40,7 +40,7 @@
                               <Image url="@ImagesAndLogos/E-wallet-black.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="41.0" prefHeight="21.0" prefWidth="117.0" text="clear and set fxid" textFill="#e45652">
+                        <Label fx:id="lblWalletBalance" layoutX="14.0" layoutY="41.0" prefHeight="21.0" prefWidth="117.0" text="clear and set fxid" textFill="#e45652">
                            <font>
                               <Font name="SansSerif Regular" size="18.0" />
                            </font></Label>
@@ -59,7 +59,7 @@
                               <Image url="@ImagesAndLogos/total_orders.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="41.0" prefHeight="21.0" prefWidth="117.0" text="clear and set fxid" textFill="#e45652">
+                        <Label fx:id="lblTotUserOrders" layoutX="14.0" layoutY="41.0" prefHeight="21.0" prefWidth="117.0" text="clear and set fxid" textFill="#e45652">
                            <font>
                               <Font name="SansSerif Regular" size="18.0" />
                            </font></Label>
@@ -85,7 +85,7 @@
                               <Image url="@ImagesAndLogos/cart-black2.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="40.0" prefHeight="21.0" prefWidth="117.0" text="clear and set fxid" textFill="#e45652">
+                        <Label fx:id="lblNumProdCart" layoutX="14.0" layoutY="40.0" prefHeight="21.0" prefWidth="117.0" text="clear and set fxid" textFill="#e45652">
                            <font>
                               <Font name="SansSerif Regular" size="18.0" />
                            </font></Label>
@@ -101,7 +101,7 @@
                   <Font name="SansSerif Regular" size="22.0" />
                </font>
             </Label>
-            <Button layoutX="563.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: #20120F;">
+            <Button fx:id="btnLogOut" layoutX="563.0" layoutY="13.0" mnemonicParsing="false" onAction="#btnLogOut" style="-fx-background-color: #20120F;">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -110,7 +110,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label alignment="CENTER_RIGHT" layoutX="295.0" layoutY="18.0" prefHeight="32.0" prefWidth="260.0" text="Retrieve Firstname + Lastname" textAlignment="CENTER" textFill="#f8f4f4">
+            <Label fx:id="lblFirstandLastNames" alignment="CENTER_RIGHT" layoutX="295.0" layoutY="18.0" prefHeight="32.0" prefWidth="260.0" text="Retrieve Firstname + Lastname" textAlignment="CENTER" textFill="#f8f4f4">
                <font>
                   <Font name="SansSerif Bold" size="16.0" />
                </font>
@@ -130,7 +130,7 @@
             </Pane>
             <VBox layoutY="181.0" prefHeight="370.0" prefWidth="218.0" style="-fx-background-color: #20120f;">
                <children>
-                  <Button graphicTextGap="25.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Profile      " textAlignment="CENTER" textFill="#f8f4f4">
+                  <Button fx:id="btnProfile" graphicTextGap="25.0" mnemonicParsing="false" onAction="#btnProfile" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Profile      " textAlignment="CENTER" textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
@@ -145,7 +145,7 @@
                         <Insets bottom="5.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button graphicTextGap="25.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Shop        " textFill="#f8f4f4">
+                  <Button fx:id="btnShop" graphicTextGap="25.0" mnemonicParsing="false" onAction="#btnShop" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Shop        " textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
@@ -160,7 +160,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button graphicTextGap="25.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="E-Wallet  " textFill="#f8f4f4">
+                  <Button fx:id="btnWallet" graphicTextGap="25.0" mnemonicParsing="false" onAction="#btnWallet" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="E-Wallet  " textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
@@ -175,7 +175,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button graphicTextGap="25.0" layoutX="10.0" layoutY="165.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Cart        " textFill="#f8f4f4">
+                  <Button fx:id="btnCart" graphicTextGap="25.0" layoutX="10.0" layoutY="165.0" mnemonicParsing="false" onAction="#btnCart" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Cart        " textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
@@ -190,7 +190,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button graphicTextGap="25.0" layoutX="10.0" layoutY="209.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Orders    " textFill="#f8f4f4">
+                  <Button fx:id="btnUserOrders" graphicTextGap="25.0" layoutX="10.0" layoutY="209.0" mnemonicParsing="false" onAction="#btnUserOrders" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #D1805F; -fx-background-radius: 15;" text="Orders    " textFill="#f8f4f4">
                      <font>
                         <Font name="SansSerif Bold" size="17.0" />
                      </font>
