@@ -23,7 +23,7 @@ public class Database {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/market";
     static final String USER = "root";
-    static final String PASS = "root";
+    static final String PASS = "1234";
     static boolean e = false;
     static Database d;
 
@@ -336,6 +336,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -351,6 +354,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -381,6 +387,9 @@ public class Database {
                 }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -396,6 +405,9 @@ public class Database {
                 }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -411,6 +423,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -448,6 +463,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -478,24 +496,45 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
+           JFrame parent = new JFrame();
+           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
     }  
 
-    synchronized String get_product_price(int product_id){
+    synchronized String get_category_name(int category_id){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+           Statement stmt = conn.createStatement();){
+              String strSelect = "select Cname from category where idcategory ="+category_id;
+              ResultSet r = stmt.executeQuery(strSelect);
+              while(r.next()){
+                  return r.getString("Cname");
+              }
+        } catch (SQLException e) {
+           e.printStackTrace();
+           JFrame parent = new JFrame();
+           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           JOptionPane.showMessageDialog(parent, "doesn't exist");
+           return "doesn't exist";
+        }    
+        return "doesn't exist";
+    }  
+
+    synchronized float get_product_price(int product_id){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
            Statement stmt = conn.createStatement();){
               String strSelect = "select price from product where product_id ="+product_id;
               ResultSet r = stmt.executeQuery(strSelect);
               while(r.next()){
-                  return r.getString("price");
+                  return r.getFloat("price");
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           return "doesn't exist";
+           return 0;
         }    
-        return "doesn't exist";
+        return 0;
     }
     
     synchronized String get_product_quantity(int product_id){
@@ -508,6 +547,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
+           JFrame parent = new JFrame();
+           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -523,6 +565,27 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
+           JFrame parent = new JFrame();
+           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           JOptionPane.showMessageDialog(parent, "doesn't exist");
+           return "doesn't exist";
+        }    
+        return "doesn't exist";
+    }
+    
+    synchronized String get_category_status(int category_id){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+           Statement stmt = conn.createStatement();){
+              String strSelect = "select status from category where idcategory ="+category_id;
+              ResultSet r = stmt.executeQuery(strSelect);
+              while(r.next()){
+                  return r.getString("status");
+              }
+        } catch (SQLException e) {
+           e.printStackTrace();
+           JFrame parent = new JFrame();
+           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -538,6 +601,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
+           JFrame parent = new JFrame();
+           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -616,6 +682,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -631,6 +700,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -646,6 +718,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -661,65 +736,68 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
+               JFrame parent = new JFrame();
+               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+               JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
     }
     
     synchronized void change_password(int id, String password){
-                try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-               Statement stmt = conn.createStatement();){
-                    PreparedStatement psCheckpasswordExists = null;
-                    ResultSet passwordSet = null;
-                    psCheckpasswordExists = conn.prepareStatement("SELECT * FROM customer WHERE pword = ?");
-                    psCheckpasswordExists.setString(1, password);
-                    passwordSet = psCheckpasswordExists.executeQuery();
-                      
-                    if(passwordSet.isBeforeFirst()){               
-                        JFrame parent = new JFrame();
-                        parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        JOptionPane.showMessageDialog(parent, "already exists");
-                    }
-                    else{
-                        String sqlInsert = "update customer set pword = \""+password+"\" where customer_id = " + id +";";
-                        int countInserted = stmt.executeUpdate(sqlInsert);
-                        JFrame parent = new JFrame();
-                        parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        JOptionPane.showMessageDialog(parent, "Updated");
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+       Statement stmt = conn.createStatement();){
+            PreparedStatement psCheckpasswordExists = null;
+            ResultSet passwordSet = null;
+            psCheckpasswordExists = conn.prepareStatement("SELECT * FROM customer WHERE pword = ?");
+            psCheckpasswordExists.setString(1, password);
+            passwordSet = psCheckpasswordExists.executeQuery();
 
-                    }
+            if(passwordSet.isBeforeFirst()){               
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "already exists");
+            }
+            else{
+                String sqlInsert = "update customer set pword = \""+password+"\" where customer_id = " + id +";";
+                int countInserted = stmt.executeUpdate(sqlInsert);
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "Updated");
 
-                } catch (SQLException e) {
-                  e.printStackTrace();
-               }          
+            }
+
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
 
     }
     
     synchronized void change_userName(int id, String userName){
-                try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-               Statement stmt = conn.createStatement();){
-                        PreparedStatement psCheckpasswordExists = null;
-                        ResultSet passwordSet = null;
-                        psCheckpasswordExists = conn.prepareStatement("SELECT * FROM customer WHERE userName = ?");
-                        psCheckpasswordExists.setString(1, userName);
-                        passwordSet = psCheckpasswordExists.executeQuery();
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+       Statement stmt = conn.createStatement();){
+                PreparedStatement psCheckpasswordExists = null;
+                ResultSet passwordSet = null;
+                psCheckpasswordExists = conn.prepareStatement("SELECT * FROM customer WHERE userName = ?");
+                psCheckpasswordExists.setString(1, userName);
+                passwordSet = psCheckpasswordExists.executeQuery();
 
-                        if(passwordSet.isBeforeFirst()){               
-                            JFrame parent = new JFrame();
-                            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            JOptionPane.showMessageDialog(parent, "already exists");
-                        }
-                        else{
-                            String sqlInsert = "update customer set userName = \""+userName+"\" where customer_id = " + id +";";
-                            int countInserted = stmt.executeUpdate(sqlInsert);
-                            JFrame parent = new JFrame();
-                            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            JOptionPane.showMessageDialog(parent, "Updated");
+                if(passwordSet.isBeforeFirst()){               
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "already exists");
+                }
+                else{
+                    String sqlInsert = "update customer set userName = \""+userName+"\" where customer_id = " + id +";";
+                    int countInserted = stmt.executeUpdate(sqlInsert);
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "Updated");
 
-                        }
-                } catch (SQLException e) {
-                  e.printStackTrace();
-               }          
+                }
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
 
     }
     
@@ -881,6 +959,106 @@ public class Database {
            return arr;     
     }
     
+    synchronized void change_ProductName(int id, String product_name){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();){
+            String sqlInsert = "select product_id from product where product_id = " + id +";";
+            ResultSet r = stmt.executeQuery(sqlInsert);
+            if(r.isBeforeFirst()){
+                sqlInsert = "update product set Pname = \""+product_name+"\" where product_id = " + id +";";
+                int countInserted = stmt.executeUpdate(sqlInsert);  
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "product updated");             
+        }
+        else{
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+        }
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }    
+    
+    synchronized void change_ProductPrice(int id, float price){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();){
+            String sqlInsert = "select price from product where product_id = " + id +";";
+            ResultSet r = stmt.executeQuery(sqlInsert);
+            if(r.isBeforeFirst()){
+                sqlInsert = "update product set price = "+price+" where product_id = " + id +";";
+                int countInserted = stmt.executeUpdate(sqlInsert);  
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "product updated");             
+        }
+        else{
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+        }
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }    
+    
+    synchronized void change_ProductCategory(int id, String category_name){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();){
+            String sqlInsert = "select category_id from product where product_id = " + id +";";
+            ResultSet r = stmt.executeQuery(sqlInsert);
+            if(r.isBeforeFirst()){
+                String sqlSelect = "select idcategory from category where Cname = \"" + category_name +"\";";
+                ResultSet rid = stmt.executeQuery(sqlSelect);
+                rid.next();
+                int Cid = rid.getInt("idcategory");
+                sqlInsert = "update product set category_id = "+Cid+" where product_id = " + id +";";
+                int countInserted = stmt.executeUpdate(sqlInsert);  
+                JFrame parent = new JFrame();
+                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                JOptionPane.showMessageDialog(parent, "product updated");             
+        }
+        else{
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+        }
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }    
+    
+    synchronized void change_ProductStatus(int id, String status){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlInsert = "select product_id from product where product_id = " + id +";";
+        ResultSet r = stmt.executeQuery(sqlInsert);
+        if(r.isBeforeFirst()){
+            sqlInsert = "update product set status = \""+status+"\" where product_id = " + id +";";
+            int countInserted = stmt.executeUpdate(sqlInsert);
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "product updated");             
+        }
+        else{
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+        }
+        int countInserted = stmt.executeUpdate(sqlInsert);
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+
+    }    
+    
     public static void main(String[] args) {
         // TODO code application logic here
         Database db = Database.create();
@@ -899,7 +1077,7 @@ public class Database {
 //        db.addProduct(2,"labtop",1,5000,3,"active");
 //        db.addProduct(3, "basketball", 1, 100,10, "active");
 //        db.addCategory(1,"Sports","active");
-        //db.addCategory(2,"electronics","active");
+//        db.addCategory(2,"electronics","active");
 //        db.delete_user(1);
 //        System.out.println(db.get_user_balance(2));
 //        db.increase_balance(2, 200);
@@ -930,6 +1108,14 @@ public class Database {
 //            System.out.println(db.get_user_password(1));
 //            db.change_userName(1,"ahmed1234");
 //            System.out.println(db.get_user_name(1));
+//        db.change_ProductName(3, "PC");
+//        System.out.println(db.get_product_name(2));
+//        db.change_ProductPrice(3, 10000);
+//        System.out.println(db.get_product_name(2));
+//        db.change_ProductCategory(2, "electronics");
+//        System.out.println(db.get_category_name(2));
+//        db.change_ProductStatus(3, "active");
+//        System.out.println(db.get_product_status(3));
     }
     
 }
