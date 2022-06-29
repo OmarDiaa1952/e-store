@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import database.customer;
 /**
  *
  * @author omara
@@ -1121,6 +1122,21 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
+//        customer c = new customer(1);
+//        System.out.println(c.getBalance());
+//        System.out.println(c.getEmail());
+//        System.out.println(c.getFirstName());
+//        System.out.println(c.getId());
+//        System.out.println(c.getLastName());
+//        System.out.println(c.getUserName());
+//        int [] o = c.getOrders();
+//        for(int i =0 ; i< o.length; i++){
+//            System.out.println(o[i]);
+//            System.out.println(db.get_orderDate(o[i]));
+//            System.out.println(db.get_orderTotalAmount(o[i]));
+//
+//        }
+
     }
     
 }
