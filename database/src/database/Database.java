@@ -120,7 +120,7 @@ public class Database {
 
     }
 
-    synchronized void addProduct(int product_id,String pname, int category_id, int price, int stock, String status){
+    synchronized void addProduct(int product_id,String pname, int category_id, double price, int stock, String status){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckidExists = null;
@@ -261,7 +261,7 @@ public class Database {
             psCheckOrderidExists = conn.prepareStatement("SELECT * FROM _order WHERE order_id = ?");
             psCheckOrderidExists.setString(1, ""+ order_id);
             orderidSet = psCheckOrderidExists.executeQuery();
-           int total_amount = 0;
+           double total_amount = 0;
             if(!orderidSet.isBeforeFirst()){               
                 String sqlInsert = "insert into _order values ("+order_id+","+customer_id+",\""+date+"\","+0+")";
                 int countInserted = stmt.executeUpdate(sqlInsert);                
@@ -270,9 +270,9 @@ public class Database {
             int countInserted = stmt.executeUpdate(sqlInsert);
             sqlInsert = "select price from product where product_id = "+product_id+";";
             r = stmt.executeQuery(sqlInsert);
-            int price = 0;
+            double price = 0;
             while(r.next()){
-                price = r.getInt("price");               
+                price = r.getDouble("price");               
                 System.out.println(price);
             }
             total_amount = price * quantity;
@@ -522,13 +522,13 @@ public class Database {
         return "doesn't exist";
     }  
 
-    synchronized float get_product_price(int product_id){
+    synchronized double get_product_price(int product_id){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
            Statement stmt = conn.createStatement();){
               String strSelect = "select price from product where product_id ="+product_id;
               ResultSet r = stmt.executeQuery(strSelect);
               while(r.next()){
-                  return r.getFloat("price");
+                  return r.getDouble("price");
               }
         } catch (SQLException e) {
            e.printStackTrace();
@@ -983,7 +983,7 @@ public class Database {
 
     }    
     
-    synchronized void change_ProductPrice(int id, float price){
+    synchronized void change_ProductPrice(int id, double price){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();){
             String sqlInsert = "select price from product where product_id = " + id +";";
@@ -1116,6 +1116,11 @@ public class Database {
 //        System.out.println(db.get_category_name(2));
 //        db.change_ProductStatus(3, "active");
 //        System.out.println(db.get_product_status(3));
+//        db.addProduct(3, "basketball", 1, 100.99,10, "active");
+//        db.addOrder(4, 3, 1,"2022-06-28 6:06:30", 1);
+//        System.out.println(db.get_product_price(3));
+//        db.change_ProductPrice(3,300.6);
+//        System.out.println(db.get_product_price(3));
     }
     
 }
