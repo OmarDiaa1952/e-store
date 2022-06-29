@@ -612,6 +612,38 @@ public class Database {
         return -1;
     }  
     
+    synchronized int[] get_orderProducts(int order_id){
+      int a[] = {};
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String strSelect = "select o_id from order_product where o_id = "+order_id+";";
+                ResultSet r = stmt.executeQuery(strSelect);
+                if(r.isBeforeFirst()){
+                    String str = "select count(o_id) as Corder from order_product group by o_id having o_id = "+order_id;
+                    ResultSet rs = stmt.executeQuery(str);
+                    rs.next();
+                    int n = rs.getInt("Corder");
+                    a = new int[n];
+                    int i =0;
+                    strSelect = "select pro_id from order_product where o_id = "+order_id;
+                    r = stmt.executeQuery(strSelect);
+                    while(r.next()){
+                        a[i++] = r.getInt("pro_id");
+                    }
+                    return a;
+                }
+                else{
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "doesn't exist");                
+                }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return a;
+            } 
+            return a;
+    }
+    
     synchronized void increase_balance(int customer_id, int amount){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){               
@@ -895,6 +927,27 @@ public class Database {
 
     }
     
+    synchronized void delete_from_cart(int product_id, int customer_id){
+                try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){    
+                    String sqlDelete = "delete from cart_product where p_id = "+product_id+" and c_id = "+customer_id+";";
+                    int countDeleted = stmt.executeUpdate(sqlDelete);
+                     if(countDeleted == 0){
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "Doesn't exist");
+                    }
+                    else{
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "Deleted");
+                }
+            } catch (SQLException e) {
+               e.printStackTrace();
+            }    
+
+    }
+    
     synchronized int[] searchByCategory(String category){
                 int[] arr = {};
                 int n = 0;
@@ -1078,7 +1131,14 @@ public class Database {
 //            System.out.println(db.get_orderTotalAmount(o[i]));
 //
 //        }        
-//        Database db = Database.create();
+        Database db = Database.create();
+//        db.delete_from_cart(1,1);
+//        int[] arr = db.get_orderProducts(8);
+//        for(int i = 0;i < arr.length; i ++){
+//            System.out.println(arr[i]);
+//            System.out.println(db.get_product_name(arr[i]));
+//        }
+        
 //        OrderList ol = new OrderList(1);
 //        System.out.println(ol.order_id);
 //        System.out.println(ol.price);
