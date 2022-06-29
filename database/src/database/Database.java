@@ -12,6 +12,8 @@ import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import database.customer;
+import database.OrderList;
+import database.OrderProductList;
 /**
  *
  * @author omara
@@ -24,7 +26,7 @@ public class Database {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/market";
     static final String USER = "root";
-    static final String PASS = "1234";
+    static final String PASS = "root";
     static boolean e = false;
     static Database d;
 
@@ -538,22 +540,22 @@ public class Database {
         return 0;
     }
     
-    synchronized String get_product_quantity(int product_id){
+    synchronized int get_product_quantity(int product_id){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
            Statement stmt = conn.createStatement();){
               String strSelect = "select stock from product where product_id ="+product_id;
               ResultSet r = stmt.executeQuery(strSelect);
               while(r.next()){
-                  return r.getString("quantity");
+                  return r.getInt("quantity");
               }
         } catch (SQLException e) {
            e.printStackTrace();
            JFrame parent = new JFrame();
            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
            JOptionPane.showMessageDialog(parent, "doesn't exist");
-           return "doesn't exist";
+           return -1;
         }    
-        return "doesn't exist";
+        return -1;
     }
     
     synchronized String get_product_status(int product_id){
@@ -592,22 +594,22 @@ public class Database {
         return "doesn't exist";
     }
     
-    synchronized String get_order_product_quantity(int order_id,int product_id){
+    synchronized int get_order_product_quantity(int order_id,int product_id){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
            Statement stmt = conn.createStatement();){
-              String strSelect = "select quantity from order_product where pro_id ="+product_id+"and o_id = "+order_id+";";
+              String strSelect = "select quantity from order_product where pro_id = "+product_id+" and o_id = "+order_id+";";
               ResultSet r = stmt.executeQuery(strSelect);
               while(r.next()){
-                  return r.getString("quantity");
+                  return r.getInt("quantity");
               }
         } catch (SQLException e) {
            e.printStackTrace();
            JFrame parent = new JFrame();
            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
            JOptionPane.showMessageDialog(parent, "doesn't exist");
-           return "doesn't exist";
+           return -1;
         }    
-        return "doesn't exist";
+        return -1;
     }  
     
     synchronized void increase_balance(int customer_id, int amount){
@@ -1062,7 +1064,32 @@ public class Database {
     
     public static void main(String[] args) {
         // TODO code application logic here
-        Database db = Database.create();
+//        customer c = new customer(1);
+//        System.out.println(c.getBalance());
+//        System.out.println(c.getEmail());
+//        System.out.println(c.getFirstName());
+//        System.out.println(c.getId());
+//        System.out.println(c.getLastName());
+//        System.out.println(c.getUserName());
+//        int [] o = c.getOrders();
+//        for(int i =0 ; i< o.length; i++){
+//            System.out.println(o[i]);
+//            System.out.println(db.get_orderDate(o[i]));
+//            System.out.println(db.get_orderTotalAmount(o[i]));
+//
+//        }        
+//        Database db = Database.create();
+//        OrderList ol = new OrderList(1);
+//        System.out.println(ol.order_id);
+//        System.out.println(ol.price);
+//        System.out.println(ol.date);
+//        
+//        OrderProductList opl = new OrderProductList(1,1);
+//        System.out.println(opl.product_id);
+//        System.out.println(opl.product);
+//        System.out.println(opl.price);
+//        System.out.println(opl.quantity);
+        
         //db.change_CategoryStatus(1,"active");
 //        int[] arr = db.searchByName("ball");
 //        for(int i = 0; i < arr.length; i ++){
@@ -1122,21 +1149,6 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
-//        customer c = new customer(1);
-//        System.out.println(c.getBalance());
-//        System.out.println(c.getEmail());
-//        System.out.println(c.getFirstName());
-//        System.out.println(c.getId());
-//        System.out.println(c.getLastName());
-//        System.out.println(c.getUserName());
-//        int [] o = c.getOrders();
-//        for(int i =0 ; i< o.length; i++){
-//            System.out.println(o[i]);
-//            System.out.println(db.get_orderDate(o[i]));
-//            System.out.println(db.get_orderTotalAmount(o[i]));
-//
-//        }
-
     }
     
 }
