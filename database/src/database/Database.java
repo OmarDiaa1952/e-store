@@ -42,6 +42,73 @@ public class Database {
         return d;
    }
       
+    synchronized String login(String username, String password){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement stmt = conn.createStatement();){
+            PreparedStatement psCheckUserExists = null;
+            PreparedStatement psCheckAdminExists = null;
+            ResultSet userSet = null;
+            ResultSet adminSet = null;
+            psCheckUserExists = conn.prepareStatement("SELECT * FROM customer WHERE userName = ?");
+            psCheckUserExists.setString(1, username);
+            userSet = psCheckUserExists.executeQuery();
+           
+            psCheckAdminExists = conn.prepareStatement("SELECT * FROM admin WHERE userName = ?");
+            psCheckAdminExists.setString(1, username);
+            adminSet = psCheckAdminExists.executeQuery();
+            
+            if(adminSet.isBeforeFirst()){               
+                String strSelect = "select pword from admin where userName = \""+username+"\";";
+                ResultSet r = stmt.executeQuery(strSelect);
+                String p;
+                r.next();
+                p = r.getString("pword");
+                if (p.equals(password)){
+                    return "admin";
+                }
+                else{
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "wrong username or password");
+                    return "wrong username or password";
+                }
+            }
+            
+
+            
+            if(userSet.isBeforeFirst()){               
+                String strSelect = "select pword from customer where userName = \""+username+"\";";
+                ResultSet r = stmt.executeQuery(strSelect);
+                String p;
+                r.next();
+                p = r.getString("pword");
+                if (p.equals(password)){
+                    return "customer";
+                }
+                else{
+                    JFrame parent = new JFrame();
+                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JOptionPane.showMessageDialog(parent, "wrong username or password");
+                    return "wrong username or password";
+                }
+
+            }
+            
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "wrong username or password");
+            return "wrong username or password";
+             
+         } catch (SQLException e) {
+            e.printStackTrace();
+            JFrame parent = new JFrame();
+            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JOptionPane.showMessageDialog(parent, "doesn't exist");
+            return "doesn't exist";
+         }    
+
+    }
+    
     synchronized void addUser(int id,String usrname, String pword, String Fname, String Lname, String email){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){            
@@ -1317,6 +1384,7 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
+        System.out.println(db.login("ahme1234", "1234"));
     }
     
 }
