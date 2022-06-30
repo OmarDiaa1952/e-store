@@ -26,7 +26,7 @@ public class Database {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/market";
     static final String USER = "root";
-    static final String PASS = "root";
+    static final String PASS = "1234";
     static boolean e = false;
     static Database d;
 
@@ -445,6 +445,94 @@ public class Database {
                 a = new int[n];
                 int i =0;
                   String strSelect = "select order_id from _order where cust_id = "+customer_id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      a[i++] = r.getInt("order_id");
+                  }
+                  return a;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return a;
+            }    
+    }
+
+    synchronized int[] get_allUsersID(){
+      int a[] = {};
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String str = "select count(customer_id) as countc from customer";
+                ResultSet rs = stmt.executeQuery(str);
+                rs.next();
+                int n = rs.getInt("countc");
+                a = new int[n];
+                int i =0;
+                  String strSelect = "select customer_id from customer";
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      a[i++] = r.getInt("customer_id");
+                  }
+                  return a;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return a;
+            }    
+    }
+
+    synchronized int[] get_allProductsID(){
+      int a[] = {};
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String str = "select count(product_id) as countp from product";
+                ResultSet rs = stmt.executeQuery(str);
+                rs.next();
+                int n = rs.getInt("countp");
+                a = new int[n];
+                int i =0;
+                  String strSelect = "select product_id from product";
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      a[i++] = r.getInt("product_id");
+                  }
+                  return a;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return a;
+            }    
+    }
+
+    synchronized int[] get_allCategoriesID(){
+      int a[] = {};
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String str = "select count(idcategory) as countp from category";
+                ResultSet rs = stmt.executeQuery(str);
+                rs.next();
+                int n = rs.getInt("countp");
+                a = new int[n];
+                int i =0;
+                  String strSelect = "select idcategory from category";
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      a[i++] = r.getInt("idcategory");
+                  }
+                  return a;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return a;
+            }    
+    }
+
+    synchronized int[] get_allOrdersID(){
+      int a[] = {};
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String str = "select count(order_id) as countp from _order";
+                ResultSet rs = stmt.executeQuery(str);
+                rs.next();
+                int n = rs.getInt("countp");
+                a = new int[n];
+                int i =0;
+                  String strSelect = "select order_id from _order";
                   ResultSet r = stmt.executeQuery(strSelect);
                   while(r.next()){
                       a[i++] = r.getInt("order_id");
@@ -1137,6 +1225,26 @@ public class Database {
 //        for(int i = 0;i < arr.length; i ++){
 //            System.out.println(arr[i]);
 //            System.out.println(db.get_product_name(arr[i]));
+//        }
+        
+//        int[] arr = db.get_allUsersID();
+//        for(int i = 0;i < arr.length; i ++){
+//            System.out.println(arr[i]);
+//        }
+        
+//        int[] arr = db.get_allProductsID();
+//        for(int i = 0;i < arr.length; i ++){
+//            System.out.println(arr[i]);
+//        }
+//        
+//        int[] arr = db.get_allOrdersID();
+//        for(int i = 0;i < arr.length; i ++){
+//            System.out.println(arr[i]);
+//        }
+        
+//        int[] arr = db.get_allCategoriesID();
+//        for(int i = 0;i < arr.length; i ++){
+//            System.out.println(arr[i]);
 //        }
         
 //        OrderList ol = new OrderList(1);
