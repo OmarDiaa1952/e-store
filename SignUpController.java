@@ -75,17 +75,7 @@ public class SignUpController implements Initializable {
         
         signUpBtn.setDisable(isDisabled);
         
-        /*if(!isDisabled){
-            this.fn = fn;
-            this.lastn = lastn;
-            this.email = email;
-            this.un = un;
-            this.pw = pw;
-        }
-        //System.out.println(empty);
-        //System.out.println(equalpw);
-        //System.out.println(valid);
-        */
+        
         
     }
     

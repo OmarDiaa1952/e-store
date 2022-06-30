@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -56,19 +57,19 @@ public class ProfileUserController implements Initializable {
     private Label lblWalletBalance;
 
     @FXML
-    private TextField txtFieldNewPass;
+    private PasswordField passFieldNewPass;
 
     @FXML
-    private TextField txtFieldOldPass;
+    private PasswordField passFieldOldPass;
 
     @FXML
-    private TextField txtFieldPass;
+    private PasswordField passFieldPass;
 
     @FXML
-    private TextField txtFieldRetypeNewPass;
+    private PasswordField passFieldRetypeNewPass;
 
     @FXML
-    private TextField txtFieldRetypePass;
+    private PasswordField passFieldRetypePass;
     
     
     @FXML
