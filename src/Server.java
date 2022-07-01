@@ -96,11 +96,10 @@ public class Server {
                         out.writeUTF(clientIP);
                     }else{
                         String[] data = input.split(":");
-                        System.out.println(data[0]);
                         try{
                         Integer.parseInt(data[0]);
                         String resp = Commands.quiry(input);
-                            System.out.println("I am here");
+                            System.out.println(input);
                         out.writeUTF(resp);
                         }catch(NumberFormatException e){
                         System.out.println("Client" + clientIP + " said : " + input);

@@ -62,7 +62,7 @@ public class Commands {
         String[] msgSplit = msg.split(":");
         int op = Integer.parseInt(msgSplit[0]);
         String[] param = msgSplit[1].split(";");
-        String res="1";
+        String res=null;
         Database db = Database.create();
         switch(op){
             case ADDUSER : 
@@ -228,7 +228,7 @@ public class Commands {
                 res = String.valueOf(db.get_order_count(Integer.parseInt(param[0])));
                 break;
         }
-        if("1".equals(res)){
+        if(res == null){
             res = "Done Successfully";
         }
         return res;
