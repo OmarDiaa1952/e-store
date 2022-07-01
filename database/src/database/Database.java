@@ -423,6 +423,23 @@ public class Database {
             }    
               return 0;
     }
+    
+    synchronized int count_products_in_cart(int cart_id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select quantity from cart_product where c_id = "+cart_id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  int total = 0;
+                  while(r.next()){
+                    total+= r.getInt("quantity");                      
+                  }
+                 return total;
+                  
+            } catch (SQLException e) {
+               e.printStackTrace();
+            }    
+              return 0;
+    }
 
     synchronized String get_user_firstName(int id){
             try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -1433,7 +1450,9 @@ public class Database {
         //System.out.println(product_id);
         //System.out.println(category_id);
         db.set_static_category_id();
-        System.out.println(db.count_orders());
+        
+        System.out.println(db.count_products_in_cart(1));
+        //System.out.println(db.count_orders());
         //System.out.println(category_id);
 //        db.addUser("ashraf123", "12124", "ashraf1", "omar", "ashraf2@gmail.com");
 //        db.addUser("adham123", "12124", "adham1", "salah", "adham2@gmail.com");		
