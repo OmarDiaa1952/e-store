@@ -99,7 +99,6 @@ public class Server {
                         try{
                         Integer.parseInt(data[0]);
                         String resp = Commands.quiry(input);
-                            System.out.println(input);
                         out.writeUTF(resp);
                         }catch(NumberFormatException e){
                         System.out.println("Client" + clientIP + " said : " + input);

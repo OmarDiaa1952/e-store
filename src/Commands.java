@@ -1,5 +1,3 @@
-
-
 import java.util.Arrays;
 public class Commands {
     
@@ -57,6 +55,9 @@ public class Commands {
     private final static int CHANGE_PRODUCTSTATUS = 51;
     private final static int LOGIN = 52;
     private final static int GET_ORDER_COUNT = 53;
+    private final static int COUNT_ORDERS = 54;
+    private final static int COUNT_PRODUCTS_IN_CART = 55;
+
     
     public static String quiry(String msg){
         String[] msgSplit = msg.split(":");
@@ -66,22 +67,22 @@ public class Commands {
         Database db = Database.create();
         switch(op){
             case ADDUSER : 
-                    db.addUser((param[0]),param[1],param[2],param[3],param[4]);
+                    res = db.addUser((param[0]),param[1],param[2],param[3],param[4]);
             break;
             case ADDADMIN : 
-                    db.addAdmin((param[0]),param[1],param[2],param[3],param[4]);
+                    res = db.addAdmin((param[0]),param[1],param[2],param[3],param[4]);
             break;
             case ADDPRODUCT : 
-                    db.addProduct((param[0]),Integer.parseInt(param[1]),Double.parseDouble(param[2]),Integer.parseInt(param[3]),(param[4]));
+                    res = db.addProduct((param[0]),Integer.parseInt(param[1]),Double.parseDouble(param[2]),Integer.parseInt(param[3]),(param[4]));
             break;
             case ADDCATEGORY : 
-                    db.addCategory((param[0]),param[1]);
+                    res = db.addCategory((param[0]),param[1]);
             break;
             case ADDTOCART : 
-                    db.addToCart(Integer.parseInt(param[0]),Integer.parseInt(param[1]),Integer.parseInt(param[2]));
+                    res = db.addToCart(Integer.parseInt(param[0]),Integer.parseInt(param[1]),Integer.parseInt(param[2]));
             break;
             case ADDORDER : 
-                    db.addOrder(Integer.parseInt(param[0]),Integer.parseInt(param[1]),Integer.parseInt(param[2]),param[3],Integer.parseInt(param[4]));
+                    res = db.addOrder(Integer.parseInt(param[0]),Integer.parseInt(param[1]),Integer.parseInt(param[2]),param[3],Integer.parseInt(param[4]));
             break;
             case COUNT_USERS : 
                     res = String.valueOf(db.count_users());
@@ -156,13 +157,13 @@ public class Commands {
                     res = Arrays.toString(db.get_orderProducts(Integer.parseInt(param[0])));
             break;
             case INCREASE_BALANCE : 
-                    db.increase_balance(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
+                    res = db.increase_balance(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
             break;
             case DECREASE_BALANCE : 
-                    db.decrease_balance(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
+                    res = db.decrease_balance(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
             break;
             case INCREASE_STOCK : 
-                    db.increase_stock(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
+                    res = db.increase_stock(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
             break;
             case CLEAR_CART : 
                     db.clear_cart(Integer.parseInt(param[0]));
@@ -180,28 +181,28 @@ public class Commands {
                     res = String.valueOf(db.get_admin_email(Integer.parseInt(param[0])));
             break;
             case CHANGE_PASSWORD : 
-                    db.change_password(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_password(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_USERNAME : 
-                    db.change_userName(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_userName(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_FIRSTNAME : 
-                    db.change_FirstName(Integer.parseInt(param[0]),param[1]);
+                     db.change_FirstName(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_LASTNAME : 
                     db.change_LastName(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_CATEGORYNAME : 
-                    db.change_CategoryName(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_CategoryName(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_CATEGORYSTATUS : 
-                    db.change_CategoryStatus(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_CategoryStatus(Integer.parseInt(param[0]),param[1]);
             break;
             case DELETE_USER : 
-                    db.delete_user(Integer.parseInt(param[0]));
+                    res = db.delete_user(Integer.parseInt(param[0]));
             break;
             case DELETE_FROM_CART : 
-                    db.delete_from_cart(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
+                    res = db.delete_from_cart(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
             break;
             case SEARCHBYCATEGORY : 
                     res = Arrays.toString(db.searchByCategory(param[0]));
@@ -210,22 +211,28 @@ public class Commands {
                     res = Arrays.toString(db.searchByName(param[0]));
             break;
             case CHANGE_PRODUCTNAME : 
-                    db.change_ProductName(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_ProductName(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_PRODUCTPRICE : 
-                    db.change_ProductPrice(Integer.parseInt(param[0]),Double.parseDouble(param[1]));
+                    res = db.change_ProductPrice(Integer.parseInt(param[0]),Double.parseDouble(param[1]));
             break;
             case CHANGE_PRODUCTCATEGORY : 
-                    db.change_ProductCategory(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_ProductCategory(Integer.parseInt(param[0]),param[1]);
             break;
             case CHANGE_PRODUCTSTATUS : 
-                    db.change_ProductStatus(Integer.parseInt(param[0]),param[1]);
+                    res = db.change_ProductStatus(Integer.parseInt(param[0]),param[1]);
             break;
             case LOGIN :
                 res = db.login(param[0], param[1]);
                 break;
             case GET_ORDER_COUNT:
                 res = String.valueOf(db.get_order_count(Integer.parseInt(param[0])));
+                break;
+            case COUNT_ORDERS:
+                res = String.valueOf(db.count_orders());
+                break;
+            case COUNT_PRODUCTS_IN_CART:
+                res = String.valueOf(db.count_products_in_cart(Integer.parseInt(param[0])));
                 break;
         }
         if(res == null){
