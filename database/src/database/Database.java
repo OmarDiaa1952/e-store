@@ -640,6 +640,22 @@ public class Database {
                return a;
             }    
     }
+    
+    synchronized int get_order_count(int user_id){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select count(*) as c from _order where cust_id = "+ user_id;
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  int n = 0;
+                  while(r.next()){
+                    n = r.getInt("c");
+                  }
+                  return n;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return -1;
+            }    
+    }
 
     synchronized String get_orderDate(int order_id){
             try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
