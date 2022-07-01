@@ -29,7 +29,7 @@ public class Database {
     static final String PASS = "1234";
     static boolean e = false;
     static Database d;
-	static int product_id = 1;
+    static int product_id = 1;
     static int user_id = 1;
     static int admin_id = 1;
     static int category_id = 1;
@@ -113,7 +113,7 @@ public class Database {
 
     }
     
-    synchronized void addUser(int id,String usrname, String pword, String Fname, String Lname, String email){
+    synchronized void addUser(String usrname, String pword, String Fname, String Lname, String email){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){            
             PreparedStatement psCheckUserExists = null;
@@ -131,7 +131,7 @@ public class Database {
             emailSet = psCheckEmailExists.executeQuery();
            
             psCheckidExists = conn.prepareStatement("SELECT * FROM customer WHERE customer_id = ?");
-            psCheckidExists.setString(1,"" + id);
+            psCheckidExists.setString(1,"" + user_id);
             idSet = psCheckidExists.executeQuery();
            
             if(userSet.isBeforeFirst() || emailSet.isBeforeFirst() || idSet.isBeforeFirst()){               
@@ -141,20 +141,21 @@ public class Database {
             }
            
             else{              
-                String sqlInsert = "insert into customer values ("+id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+",0)";
+                String sqlInsert = "insert into customer values ("+user_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+",0)";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                sqlInsert = "insert into cart values ("+id+","+id+")";
+                sqlInsert = "insert into cart values ("+user_id+","+user_id+")";
                 countInserted = stmt.executeUpdate(sqlInsert);                  
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Added");
+                user_id++;
             }
         } catch (SQLException e) {
           e.printStackTrace();
        }    
     }
 
-    synchronized void addAdmin(int id,String usrname, String pword, String Fname, String Lname, String email){
+    synchronized void addAdmin(String usrname, String pword, String Fname, String Lname, String email){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckUserExists = null;
@@ -172,7 +173,7 @@ public class Database {
             emailSet = psCheckEmailExists.executeQuery();
            
             psCheckidExists = conn.prepareStatement("SELECT * FROM admin WHERE idadmin = ?");
-            psCheckidExists.setString(1,"" + id);
+            psCheckidExists.setString(1,"" + admin_id);
             idSet = psCheckidExists.executeQuery();
            
             if(userSet.isBeforeFirst() || emailSet.isBeforeFirst() || idSet.isBeforeFirst()){               
@@ -181,11 +182,12 @@ public class Database {
                 JOptionPane.showMessageDialog(parent, "already exists");
             }
             else{  
-                String sqlInsert = "insert into admin values ("+id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+")";
+                String sqlInsert = "insert into admin values ("+admin_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+")";
                 int countInserted = stmt.executeUpdate(sqlInsert);
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Added");
+                admin_id++;
             }            
 
        } catch (SQLException e) {
@@ -194,7 +196,7 @@ public class Database {
 
     }
 
-    synchronized void addProduct(int product_id,String pname, int category_id, double price, int stock, String status){
+    synchronized void addProduct(String pname, int category_id, double price, int stock, String status){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckidExists = null;
@@ -214,6 +216,7 @@ public class Database {
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Added");
+                product_id++;
             }
 
        } catch (SQLException e) {
@@ -221,7 +224,7 @@ public class Database {
        }    
     }
     
-    synchronized void addCategory(int category_id,String cname,String status){
+    synchronized void addCategory(String cname,String status){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psChecknameExists = null;
@@ -247,7 +250,7 @@ public class Database {
                 JFrame parent = new JFrame();
                 parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JOptionPane.showMessageDialog(parent, "Added");
-
+                category_id++;
             }
        } catch (SQLException e) {
           e.printStackTrace();
