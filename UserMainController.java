@@ -1,8 +1,12 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
+import static SuperMarket.LoginController.user_id;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -149,6 +153,21 @@ public class UserMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        try {
+            // TODO
+            String fname = c.send(new String().format("%d:%d",Commands.GET_USER_FIRSTNAME,user_id));
+            String lname = c.send(new String().format("%d:%d",Commands.GET_USER_LASTNAME,user_id));
+            
+            
+            // initialize labels from database
+            lblFirstandLastNames.setText(fname + " " + lname);
+            lblNumProdCart.setText(c.send(new String().format("%d:%d",Commands.COUNT_PRODUCTS_IN_CART,user_id)));
+            lblTotUserOrders.setText(c.send(new String().format("%d:%d",Commands.GET_ORDER_COUNT,user_id)));
+            lblWalletBalance.setText(c.send(new String().format("%d:%d",Commands.GET_USER_BALANCE,user_id)));
+        } catch (IOException ex) {
+            Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }    
     
 }

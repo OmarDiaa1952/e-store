@@ -1,8 +1,12 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
+import static SuperMarket.LoginController.user_id;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -94,7 +98,7 @@ public class AdminMainController implements Initializable {
     @FXML
     public void btnLogOut(ActionEvent event) throws IOException{
         
-        //close remote connection to database and release resources
+        
         //to be implemented
         
         root = FXMLLoader.load(getClass().getResource("Login.fxml"));
@@ -112,9 +116,24 @@ public class AdminMainController implements Initializable {
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-        // initialize labels from database
+        try {
+            // TODO
+            String fname = c.send(new String().format("%d:%d",Commands.GET_ADMIN_FIRSTNAME,user_id));
+            String lname = c.send(new String().format("%d:%d",Commands.GET_ADMIN_FIRSTNAME,user_id));
+            String totCat = c.send(new String().format("%d:v",Commands.COUNT_CATEGORIES));
+            String totProd = c.send(new String().format("%d:v",Commands.COUNT_PRODUCTS));
+            String totUsers = c.send(new String().format("%d:v",Commands.COUNT_USERS));
+            String totOrders = c.send(new String().format("%d:v",Commands.COUNT_ORDERS));
+            
+            // initialize labels from database
+            lblName.setText(fname + " " + lname);
+            lblTotCategory.setText(totCat);
+            lblTotOrders.setText(totOrders);
+            lblTotProd.setText(totProd);      
+            lblTotUsers.setText(totUsers);
+        } catch (IOException ex) {
+            Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }    
     

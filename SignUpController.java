@@ -1,7 +1,9 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -89,7 +92,49 @@ public class SignUpController implements Initializable {
         String un = usernametxtField.getText().trim();
         String pw = pswdtxtField.getText().trim();
         
-        DBUtils.signUp(event, fn, lastn, un, email, pw);
+        
+        if(un.equalsIgnoreCase("admin") || email.contains("@emart")){
+            String cmd = (new String().format("%d:%s;%s;%s;%s;%s",Commands.ADDADMIN,un,pw,fn,lastn,email));
+            String res = c.send(cmd);
+            
+            System.out.println(res);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Added new Admin");
+            alert.show();
+          
+          
+            root = FXMLLoader.load(DBUtils.class.getResource("Login.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        }
+        
+        else{
+            String cmd = String.format("%d:%s;%s;%s;%s;%s",Commands.ADDUSER,un,pw,fn,lastn,email);
+            String res = c.send(cmd);
+            System.out.println(res);            
+            System.out.println(cmd);
+
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Added new User");
+            alert.show();
+            
+            root = FXMLLoader.load(DBUtils.class.getResource("Login.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        }
+        
+        
         
     }
     
