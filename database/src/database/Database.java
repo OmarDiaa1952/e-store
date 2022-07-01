@@ -26,7 +26,7 @@ public class Database {
     
     static final String DB_URL = "jdbc:mysql://localhost:3306/market";
     static final String USER = "root";
-    static final String PASS = "1234";
+    static final String PASS = "root";
     static boolean e = false;
     static Database d;
     static int product_id = 1;
@@ -62,13 +62,14 @@ public class Database {
             adminSet = psCheckAdminExists.executeQuery();
             
             if(adminSet.isBeforeFirst()){               
-                String strSelect = "select pword from admin where userName = \""+username+"\";";
+                String strSelect = "select pword,idadmin from admin where userName = \""+username+"\";";
                 ResultSet r = stmt.executeQuery(strSelect);
                 String p;
                 r.next();
                 p = r.getString("pword");
+                String s = "" +r.getInt("idadmin");
                 if (p.equals(password)){
-                    return "admin";
+                    return "admin,"+s;
                 }
                 else{
                     JFrame parent = new JFrame();
@@ -81,13 +82,14 @@ public class Database {
 
             
             if(userSet.isBeforeFirst()){               
-                String strSelect = "select pword from customer where userName = \""+username+"\";";
+                String strSelect = "select pword,customer_id from customer where userName = \""+username+"\";";
                 ResultSet r = stmt.executeQuery(strSelect);
                 String p;
                 r.next();
                 p = r.getString("pword");
+                String s = "" + r.getInt("customer_id");
                 if (p.equals(password)){
-                    return "customer";
+                    return "customer,"+s;
                 }
                 else{
                     JFrame parent = new JFrame();
@@ -550,6 +552,21 @@ public class Database {
                e.printStackTrace();
                return a;
             }    
+    }
+
+    synchronized int get_UserID(String username){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                  String strSelect = "select customer_id from customer where userName = \"" + username+"\"";
+                  ResultSet r = stmt.executeQuery(strSelect);
+                  while(r.next()){
+                      return r.getInt("customer_id");
+                  }
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return -1;
+            }    
+            return -1;
     }
 
     synchronized int[] get_allProductsID(){
@@ -1382,8 +1399,8 @@ public class Database {
         //System.out.println(category_id);
         db.set_static_category_id();
         //System.out.println(category_id);
-        db.addUser("ashraf123", "12124", "ashraf1", "omar", "ashraf2@gmail.com");
-        db.addUser("adham123", "12124", "adham1", "salah", "adham2@gmail.com");		
+//        db.addUser("ashraf123", "12124", "ashraf1", "omar", "ashraf2@gmail.com");
+//        db.addUser("adham123", "12124", "adham1", "salah", "adham2@gmail.com");		
 //        db.delete_from_cart(1,1);
 //        int[] arr = db.get_orderProducts(8);
 //        for(int i = 0;i < arr.length; i ++){
@@ -1481,7 +1498,7 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
-//        System.out.println(db.login("ahme1234", "1234"));
+        System.out.println(db.login("Esam123", "12124"));
     }
     
 }
