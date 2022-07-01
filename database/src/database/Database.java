@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import database.customer;
-import database.OrderList;
-import database.OrderProductList;
+
 /**
  *
  * @author omara
@@ -194,7 +189,8 @@ public class Database {
                 return "aleardy exists";
             }
             else{  
-                String sqlInsert = "insert into admin values ("+admin_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+")";
+                String sqlInsert = "insert into admin values ("+admin_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\",\""+pword+"\")";
+                System.out.println(sqlInsert);
                 int countInserted = stmt.executeUpdate(sqlInsert);
                 // JFrame parent = new JFrame();
                 // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -661,6 +657,34 @@ public class Database {
             } catch (SQLException e) {
                e.printStackTrace();
                return a;
+            }    
+    }
+    
+    synchronized int get_ProductID(String name){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String str = "select product_id from product where Pname = \""+name+"\"";
+                ResultSet rs = stmt.executeQuery(str);
+                rs.next();
+                int n = rs.getInt("product_id");
+                  return n;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return -1;
+            }    
+    }
+
+    synchronized int get_CategoryID(String name){
+            try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+               Statement stmt = conn.createStatement();){
+                String str = "select idcategory as countp from category where cname = \""+name+"\"";
+                ResultSet rs = stmt.executeQuery(str);
+                rs.next();
+                int n = rs.getInt("countp");
+                  return n;
+            } catch (SQLException e) {
+               e.printStackTrace();
+               return -1;
             }    
     }
 
@@ -1458,141 +1482,4 @@ public class Database {
           e.printStackTrace();
        }          
     }
-    
-    public static void main(String[] args) {
-        // TODO code application logic here
-//        customer c = new customer(1);
-//        System.out.println(c.getBalance());
-//        System.out.println(c.getEmail());
-//        System.out.println(c.getFirstName());
-//        System.out.println(c.getId());
-//        System.out.println(c.getLastName());
-//        System.out.println(c.getUserName());
-//        int [] o = c.getOrders();
-//        for(int i =0 ; i< o.length; i++){
-//            System.out.println(o[i]);
-//            System.out.println(db.get_orderDate(o[i]));
-//            System.out.println(db.get_orderTotalAmount(o[i]));
-//
-//        }        
-        Database db = Database.create();
-        //System.out.println(user_id);
-        db.set_static_user_id();
-        //System.out.println(user_id);
-        //System.out.println(admin_id);
-        db.set_static_admin_id();
-        //System.out.println(admin_id);
-        //System.out.println(product_id);
-        db.set_static_product_id();
-        //System.out.println(product_id);
-        //System.out.println(category_id);
-        db.set_static_category_id();
-        
-        System.out.println(db.count_products_in_cart(1));
-        //System.out.println(db.count_orders());
-        //System.out.println(category_id);
-//        db.addUser("ashraf123", "12124", "ashraf1", "omar", "ashraf2@gmail.com");
-//        db.addUser("adham123", "12124", "adham1", "salah", "adham2@gmail.com");		
-//        db.delete_from_cart(1,1);
-//        int[] arr = db.get_orderProducts(8);
-//        for(int i = 0;i < arr.length; i ++){
-//            System.out.println(arr[i]);
-//            System.out.println(db.get_product_name(arr[i]));
-//        }
-        
-//        int[] arr = db.get_allUsersID();
-//        for(int i = 0;i < arr.length; i ++){
-//            System.out.println(arr[i]);
-//        }
-        
-//        int[] arr = db.get_allProductsID();
-//        for(int i = 0;i < arr.length; i ++){
-//            System.out.println(arr[i]);
-//        }
-//        
-//        int[] arr = db.get_allOrdersID();
-//        for(int i = 0;i < arr.length; i ++){
-//            System.out.println(arr[i]);
-//        }
-        
-//        int[] arr = db.get_allCategoriesID();
-//        for(int i = 0;i < arr.length; i ++){
-//            System.out.println(arr[i]);
-//        }
-        
-//        OrderList ol = new OrderList(1);
-//        System.out.println(ol.order_id);
-//        System.out.println(ol.price);
-//        System.out.println(ol.date);
-//        
-//        OrderProductList opl = new OrderProductList(1,1);
-//        System.out.println(opl.product_id);
-//        System.out.println(opl.product);
-//        System.out.println(opl.price);
-//        System.out.println(opl.quantity);
-        
-        //db.change_CategoryStatus(1,"active");
-//        int[] arr = db.searchByName("ball");
-//        for(int i = 0; i < arr.length; i ++){
-//            System.out.println(arr[i]);
-//            System.out.println(db.get_product_name(arr[i]));
-//        }
-        
-        //db.addOrder(8, 1, 1,"2022-06-28 6:06:30", 2);
-        //db.increase_stock(1, 5);
-        //db.addToCart(1, 1, 3);
-//        db.addUser(3,"Esam123", "12124", "Esam1", "ali", "esam1@gmail.com");
-//        db.addAdmin(2,"mohamed12", "56789", "mohamed1", "ibrahim", "mohamed@gmail.com");
-//        db.addProduct(2,"labtop",1,5000,3,"active");
-//        db.addProduct(3, "basketball", 1, 100,10, "active");
-//        db.addCategory(1,"Sports","active");
-//        db.addCategory(2,"electronics","active");
-//        db.delete_user(1);
-//        System.out.println(db.get_user_balance(2));
-//        db.increase_balance(2, 200);
-//        System.out.println(db.get_user_balance(2));
-        //db.clear_cart(2);
-        //System.out.println(db.get_product_price(1));
-        //System.out.println(db.count_products());
-        //System.out.println(db.count_categories());
-    //        int a[] = db.get_orderID(1);
-    //        for(int i =0 ; i< a.length; i++){
-    //            System.out.println(a[i]);
-    //            System.out.println(db.get_orderDate(a[i]));
-    //            System.out.println(db.get_orderTotalAmount(a[i]));
-    //            
-    //        }
-    
-//    System.out.println(db.get_admin_firstName(2));
-//    System.out.println(db.get_admin_lastName(2));
-//    System.out.println(db.get_admin_username(2));
-//    System.out.println(db.get_admin_email(2));\
-//            db.change_userName(1,"ahmed5");
-//            System.out.println(db.get_user_name(1));
-//            db.change_FirstName(1,"ah");
-//            System.out.println(db.get_user_firstName(1));
-//            db.change_LastName(1,"Mahmoud");
-//            System.out.println(db.get_user_lastName(1));
-//            db.change_password(1,"12345");
-//            System.out.println(db.get_user_password(1));
-//            db.change_userName(1,"ahmed1234");
-//            System.out.println(db.get_user_name(1));
-//        db.change_ProductName(3, "PC");
-//        System.out.println(db.get_product_name(2));
-//        db.change_ProductPrice(3, 10000);
-//        System.out.println(db.get_product_name(2));
-//        db.change_ProductCategory(2, "electronics");
-//        System.out.println(db.get_category_name(2));
-//        db.change_ProductStatus(3, "active");
-//        System.out.println(db.get_product_status(3));
-//        db.addProduct(3, "basketball", 1, 100.99,10, "active");
-//        db.addOrder(4, 3, 1,"2022-06-28 6:06:30", 1);
-//        System.out.println(db.get_product_price(3));
-//        db.change_ProductPrice(3,300.6);
-//        System.out.println(db.get_product_price(3));
-        System.out.println(db.get_user_name(db.get_UserID("ahmed12")));
-        
-//        System.out.println(db.login("esam1@gmail.com", "12124"));
-    }
-    
 }
