@@ -189,7 +189,7 @@ public class Database {
                 return "aleardy exists";
             }
             else{  
-                String sqlInsert = "insert into admin values ("+admin_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+")";
+                String sqlInsert = "insert into admin values ("+admin_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\",\""+pword+"\")";
                 System.out.println(sqlInsert);
                 int countInserted = stmt.executeUpdate(sqlInsert);
                 // JFrame parent = new JFrame();
