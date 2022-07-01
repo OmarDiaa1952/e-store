@@ -1,0 +1,1 @@
+jre1.8.0_331\bin\java.exe -jar SuperMarket.jar
