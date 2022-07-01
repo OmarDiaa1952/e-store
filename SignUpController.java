@@ -1,7 +1,9 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -89,7 +91,43 @@ public class SignUpController implements Initializable {
         String un = usernametxtField.getText().trim();
         String pw = pswdtxtField.getText().trim();
         
-        DBUtils.signUp(event, fn, lastn, un, email, pw);
+        long id =  new Date().getTime();
+        //String cmd = new String().formatted("%d:%d;%s;%s;$s;%s;%s",Commands.ADDUSER,id,un,pw,fn,lastn,email );
+        
+        if(un.equalsIgnoreCase("admin") || email.contains("@emart")){
+            String cmd = new String().formatted("%d:%d:%s:%s:$s:%s:%s",Commands.ADDADMIN,id,un,pw,fn,lastn,email);
+            String res = c.send(cmd);
+            
+            System.out.println(res);
+          
+          
+            root = FXMLLoader.load(DBUtils.class.getResource("Login.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        }
+        
+        else{
+            String cmd = new String().formatted("%d:%d:%s:%s:$s:%s:%s",Commands.ADDUSER,id,un,pw,fn,lastn,email);
+            String res = c.send(cmd);
+            
+            System.out.println(res);
+            
+            root = FXMLLoader.load(DBUtils.class.getResource("Login.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        }
+        
+        
         
     }
     

@@ -2,6 +2,7 @@ package SuperMarket;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,10 +57,10 @@ public class ProductsAdminController implements Initializable {
     private TableColumn<?, ?> columnProdStatus;
 
     @FXML
-    private ComboBox<?> comboCategory;
+    private ComboBox<String> comboCategory;
 
     @FXML
-    private ComboBox<?> comboStatus;
+    private ComboBox<String> comboStatus;
 
     @FXML
     private Label lblTotSystemProd;
@@ -95,7 +96,15 @@ public class ProductsAdminController implements Initializable {
     public void btnAddProd(ActionEvent event) throws IOException{
         
         // add product to table and database
+        String product = txtFieldProdName.getText().trim();
+        String price = txtFieldProdPrice.getText().trim();
+        String quantity = txtFieldQtyToBeAdded.getText().trim();
+        String category = comboCategory.getSelectionModel().getSelectedItem();
+        String status = comboStatus.getSelectionModel().getSelectedItem();
         
+        long product_id =  new Date().getTime();
+        long category_id =  new Date().getTime(); //Magdi checks this 
+        String cmd = new String().formatted("%d:%d;%s;%s;$s;%s;%s",Commands.ADDPRODUCT,product_id,product,category_id,category,price,quantity,status);
     }
     
     @FXML

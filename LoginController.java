@@ -1,5 +1,6 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 public class LoginController implements Initializable {
@@ -24,6 +24,7 @@ public class LoginController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    public static int user_id;
     
     @FXML
     private Button login;
@@ -67,11 +68,35 @@ public class LoginController implements Initializable {
         
         //check username and password with database     //msgLabel
         //and set the text of message field to appropciate msg if invalid user or password
-        
         String un = username.getText().trim();
         String pw = password.getText().trim();
         
-        DBUtils.login(event, un, pw);
+        String cmd = new String().formatted("%d:%s:%s",Commands.LOGIN,un,pw);
+        String res = c.send(cmd);
+        
+        if(res.equals("admin")){
+            root = FXMLLoader.load(DBUtils.class.getResource("AdminMainScreen.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        }
+        
+        else if(res.equals("customer")){
+            root = FXMLLoader.load(DBUtils.class.getResource("UserMainScreen.fxml"));
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setResizable(false);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        }
+        
+        //DBUtils.login(event, un, pw);
         
     }
     

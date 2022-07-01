@@ -109,6 +109,9 @@ public class ShopUserController implements Initializable {
     public void btnSearch(ActionEvent event) throws IOException{
         
         // search in table
+        String search = txtFieldSearch.getText().trim();
+        
+        
         
     }
 

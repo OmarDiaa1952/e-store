@@ -1,7 +1,9 @@
 package SuperMarket;
 
+import static SuperMarket.LoginController.user_id;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -136,6 +138,14 @@ public class ProfileUserController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        lblFirstName.setText();
+        lblLastName.setText();
+        lblEmail.setText(string);
+        lblUserName.setText(string);
+        lblWalletBalance.setText(string);
+        lblTotUserOrders.setText(string);
+        
     }    
     
 }

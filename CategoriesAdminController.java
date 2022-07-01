@@ -2,6 +2,7 @@ package SuperMarket;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class CategoriesAdminController implements Initializable {
     private TableColumn<?, ?> columnCategoryStatus;
 
     @FXML
-    private ComboBox<?> comboStatus;
+    private ComboBox<String> comboStatus;
 
     @FXML
     private Label lblTotCategories;
@@ -77,7 +78,13 @@ public class CategoriesAdminController implements Initializable {
     public void btnAddCategory(ActionEvent event) throws IOException{
         
         // add category to table and database
+        String category = txtFieldCategoryName.getText().trim();
+        String status = comboStatus.getSelectionModel().getSelectedItem();
         
+        
+        long category_id =  new Date().getTime();  
+        String cmd = new String().formatted("%d:%d;%s;%s;$s;%s;%s",Commands.ADDCATEGORY,category_id,category,status);
+   
     }
     
     @FXML
