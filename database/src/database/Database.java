@@ -29,6 +29,10 @@ public class Database {
     static final String PASS = "1234";
     static boolean e = false;
     static Database d;
+	static int product_id = 1;
+    static int user_id = 1;
+    static int admin_id = 1;
+    static int category_id = 1;
 
     private Database(){         
     }
@@ -1269,6 +1273,82 @@ public class Database {
        }          
 
     }    
+	
+	synchronized void set_static_user_id(){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlSelect = "SELECT customer_id FROM customer ORDER BY customer_id DESC LIMIT 1";
+        ResultSet r = stmt.executeQuery(sqlSelect);
+        if(r.isBeforeFirst()){
+            while(r.next()){
+                user_id = r.getInt("customer_id");
+            }
+            user_id++;
+        }
+        else{
+            user_id = 1;
+        }
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+    }
+	
+	synchronized void set_static_admin_id(){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlSelect = "SELECT idadmin FROM admin ORDER BY idadmin DESC LIMIT 1";
+        ResultSet r = stmt.executeQuery(sqlSelect);
+        if(r.isBeforeFirst()){
+            while(r.next()){
+                admin_id = r.getInt("idadmin");
+            }
+            admin_id++;
+        }
+        else{
+            admin_id = 1;
+        }
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+    }
+	
+	synchronized void set_static_product_id(){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlSelect = "SELECT product_id FROM product ORDER BY product_id DESC LIMIT 1";
+        ResultSet r = stmt.executeQuery(sqlSelect);
+        if(r.isBeforeFirst()){
+            while(r.next()){
+                product_id = r.getInt("product_id");
+            }
+            product_id++;
+        }
+        else{
+            product_id = 1;
+        }
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+    }
+	
+	synchronized void set_static_category_id(){
+        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();){
+        String sqlSelect = "SELECT idcategory FROM category ORDER BY idcategory DESC LIMIT 1";
+        ResultSet r = stmt.executeQuery(sqlSelect);
+        if(r.isBeforeFirst()){
+            while(r.next()){
+                category_id = r.getInt("idcategory");
+            }
+            category_id++;
+        }
+        else{
+            category_id = 1;
+        }
+        } catch (SQLException e) {
+          e.printStackTrace();
+       }          
+    }
     
     public static void main(String[] args) {
         // TODO code application logic here
@@ -1287,6 +1367,20 @@ public class Database {
 //
 //        }        
         Database db = Database.create();
+        //System.out.println(user_id);
+        db.set_static_user_id();
+        //System.out.println(user_id);
+        //System.out.println(admin_id);
+        db.set_static_admin_id();
+        //System.out.println(admin_id);
+        //System.out.println(product_id);
+        db.set_static_product_id();
+        //System.out.println(product_id);
+        //System.out.println(category_id);
+        db.set_static_category_id();
+        //System.out.println(category_id);
+        db.addUser("ashraf123", "12124", "ashraf1", "omar", "ashraf2@gmail.com");
+        db.addUser("adham123", "12124", "adham1", "salah", "adham2@gmail.com");		
 //        db.delete_from_cart(1,1);
 //        int[] arr = db.get_orderProducts(8);
 //        for(int i = 0;i < arr.length; i ++){
@@ -1384,7 +1478,7 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
-        System.out.println(db.login("ahme1234", "1234"));
+//        System.out.println(db.login("ahme1234", "1234"));
     }
     
 }
