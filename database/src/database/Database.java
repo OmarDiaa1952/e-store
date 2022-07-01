@@ -53,16 +53,18 @@ public class Database {
             PreparedStatement psCheckAdminExists = null;
             ResultSet userSet = null;
             ResultSet adminSet = null;
-            psCheckUserExists = conn.prepareStatement("SELECT * FROM customer WHERE userName = ?");
+            psCheckUserExists = conn.prepareStatement("SELECT * FROM customer WHERE userName = ? OR email = ?");
             psCheckUserExists.setString(1, username);
+            psCheckUserExists.setString(2, username);
             userSet = psCheckUserExists.executeQuery();
            
-            psCheckAdminExists = conn.prepareStatement("SELECT * FROM admin WHERE userName = ?");
+            psCheckAdminExists = conn.prepareStatement("SELECT * FROM admin WHERE userName = ? OR email = ?");
             psCheckAdminExists.setString(1, username);
+            psCheckAdminExists.setString(2, username);
             adminSet = psCheckAdminExists.executeQuery();
             
             if(adminSet.isBeforeFirst()){               
-                String strSelect = "select pword,idadmin from admin where userName = \""+username+"\";";
+                String strSelect = "select pword,idadmin from admin where userName = \""+username+"\" "+"OR email = \""+username+"\";";
                 ResultSet r = stmt.executeQuery(strSelect);
                 String p;
                 r.next();
@@ -82,7 +84,7 @@ public class Database {
 
             
             if(userSet.isBeforeFirst()){               
-                String strSelect = "select pword,customer_id from customer where userName = \""+username+"\";";
+                String strSelect = "select pword,customer_id from customer where userName = \""+username+"\" "+"OR email = \""+username+"\";";
                 ResultSet r = stmt.executeQuery(strSelect);
                 String p;
                 r.next();
@@ -1498,7 +1500,7 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
-        System.out.println(db.login("Esam123", "12124"));
+        System.out.println(db.login("esam1@gmail.com", "12124"));
     }
     
 }
