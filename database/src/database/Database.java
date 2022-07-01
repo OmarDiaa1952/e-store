@@ -78,9 +78,9 @@ public class Database {
                     return "admin,"+s;
                 }
                 else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "wrong username or password");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "wrong username or password");
                     return "wrong username or password";
                 }
             }
@@ -98,30 +98,30 @@ public class Database {
                     return "customer,"+s;
                 }
                 else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "wrong username or password");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "wrong username or password");
                     return "wrong username or password";
                 }
 
             }
             
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "wrong username or password");
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "wrong username or password");
             return "wrong username or password";
              
          } catch (SQLException e) {
             e.printStackTrace();
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "doesn't exist");
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "doesn't exist");
             return "doesn't exist";
          }    
 
     }
     
-    synchronized void addUser(String usrname, String pword, String Fname, String Lname, String email){
+    synchronized String addUser(String usrname, String pword, String Fname, String Lname, String email){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){            
             PreparedStatement psCheckUserExists = null;
@@ -143,9 +143,10 @@ public class Database {
             idSet = psCheckidExists.executeQuery();
            
             if(userSet.isBeforeFirst() || emailSet.isBeforeFirst() || idSet.isBeforeFirst()){               
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "already exists");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "already exists");
+                return "already exists";
             }
            
             else{              
@@ -153,17 +154,19 @@ public class Database {
                 int countInserted = stmt.executeUpdate(sqlInsert);
                 sqlInsert = "insert into cart values ("+user_id+","+user_id+")";
                 countInserted = stmt.executeUpdate(sqlInsert);                  
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Added");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Added");
                 user_id++;
+                return "added";
             }
         } catch (SQLException e) {
           e.printStackTrace();
        }    
+        return "";
     }
 
-    synchronized void addAdmin(String usrname, String pword, String Fname, String Lname, String email){
+    synchronized String addAdmin(String usrname, String pword, String Fname, String Lname, String email){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckUserExists = null;
@@ -185,26 +188,28 @@ public class Database {
             idSet = psCheckidExists.executeQuery();
            
             if(userSet.isBeforeFirst() || emailSet.isBeforeFirst() || idSet.isBeforeFirst()){               
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "already exists");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "already exists");
+                return "aleardy exists";
             }
             else{  
                 String sqlInsert = "insert into admin values ("+admin_id+",\""+Fname+"\",\""+Lname+"\",\""+usrname+"\",\""+email+"\","+pword+")";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Added");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Added");
                 admin_id++;
+                return "added";
             }            
 
        } catch (SQLException e) {
           e.printStackTrace();
        }    
-
+       return "";
     }
 
-    synchronized void addProduct(String pname, int category_id, double price, int stock, String status){
+    synchronized String addProduct(String pname, int category_id, double price, int stock, String status){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckidExists = null;
@@ -214,25 +219,28 @@ public class Database {
             idSet = psCheckidExists.executeQuery();
            
             if(idSet.isBeforeFirst()){               
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "already exists");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "already exists");
+                return "aleardy exists";
             }
             else{  
                 String sqlInsert = "insert into product values ("+product_id+",\""+pname+"\",\""+category_id+"\",\""+price+"\",\""+stock+"\",\""+status+"\")";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Added");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Added");
                 product_id++;
+                return "added";
             }
 
        } catch (SQLException e) {
           e.printStackTrace();
        }    
+       return "";
     }
     
-    synchronized void addCategory(String cname,String status){
+    synchronized String addCategory(String cname,String status){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psChecknameExists = null;
@@ -248,25 +256,27 @@ public class Database {
             nameSet = psChecknameExists.executeQuery();
            
             if(nameSet.isBeforeFirst() || idSet.isBeforeFirst()){               
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "already exists");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "already exists");
+                return "aleardy exists";
             }
             else{  
                 String sqlInsert = "insert into category values ("+category_id+",\""+cname+"\",\""+status+"\")";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Added");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Added");
                 category_id++;
+                return "added";
             }
        } catch (SQLException e) {
           e.printStackTrace();
        }    
-
+       return "";
     }  
     
-    synchronized void addToCart(int product_id, int cart_id, int quantity){
+    synchronized String addToCart(int product_id, int cart_id, int quantity){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckidExists = null;
@@ -278,10 +288,10 @@ public class Database {
                 stock = r.getInt("stock");
             }
             if(quantity > stock){
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Not enough in stock");
-                return;
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Not enough in stock");
+                return "not enough in stock";
             }            
             psCheckidExists = conn.prepareStatement("SELECT * FROM cart_product WHERE p_id = ? AND c_id = ?");
             psCheckidExists.setInt(1,product_id);
@@ -296,33 +306,36 @@ public class Database {
                     q = r.getInt(product_id);
                 }                
                 if(q+quantity > stock){
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Not enough in stock");
-                    return;                
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Not enough in stock");
+                    return "not enough in stock";               
                 }
                 else{
                     String sqlInsert = "update cart_product set quantity = quantity + "+quantity+" where p_id = " + product_id +" and c_id = "+cart_id+";";
                     int countInserted = stmt.executeUpdate(sqlInsert);                
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "increased quantity");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "increased quantity");
+                    return "increased quantity";
                 }
             }
             else{  
                 String sqlInsert = "insert into cart_product values ("+product_id+","+cart_id+","+quantity+")";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Added");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Added");
+                return "added";
             }
 
        } catch (SQLException e) {
           e.printStackTrace();
        }    
+       return "";
     }
     
-    synchronized void addOrder(int order_id,int product_id,int customer_id, String date, int quantity){
+    synchronized String addOrder(int order_id,int product_id,int customer_id, String date, int quantity){
        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
             PreparedStatement psCheckOrderidExists = null;
@@ -334,10 +347,10 @@ public class Database {
                 stock = r.getInt("stock");
             }
             if(quantity > stock){
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Not enough in stock");
-                return;
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Not enough in stock");
+                return "not enough in stock";
             }
             else{
                 String sqlInsert = "update product set stock = stock - "+quantity+" where product_id = " + product_id +";";
@@ -363,13 +376,15 @@ public class Database {
             total_amount = price * quantity;
             sqlInsert = "update _order set total_amount = total_amount + "+total_amount+" where order_id = " + order_id +";";
             countInserted = stmt.executeUpdate(sqlInsert);            
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Added");
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Added");
+            return "added";
             
        } catch (SQLException e) {
           e.printStackTrace();
        }    
+       return "";
     }
 
     synchronized int count_users(){
@@ -451,9 +466,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -469,9 +484,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -502,14 +517,14 @@ public class Database {
                 }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
     }
-
+    
     synchronized String get_user_name(int id){
             try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
@@ -520,9 +535,9 @@ public class Database {
                 }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -538,9 +553,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -697,9 +712,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -730,9 +745,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           JFrame parent = new JFrame();
-           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           JOptionPane.showMessageDialog(parent, "doesn't exist");
+        //    JFrame parent = new JFrame();
+        //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -748,9 +763,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           JFrame parent = new JFrame();
-           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           JOptionPane.showMessageDialog(parent, "doesn't exist");
+        //    JFrame parent = new JFrame();
+        //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -781,9 +796,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           JFrame parent = new JFrame();
-           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           JOptionPane.showMessageDialog(parent, "doesn't exist");
+        //    JFrame parent = new JFrame();
+        //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    JOptionPane.showMessageDialog(parent, "doesn't exist");
            return -1;
         }    
         return -1;
@@ -799,9 +814,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           JFrame parent = new JFrame();
-           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           JOptionPane.showMessageDialog(parent, "doesn't exist");
+        //    JFrame parent = new JFrame();
+        //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -817,9 +832,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           JFrame parent = new JFrame();
-           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           JOptionPane.showMessageDialog(parent, "doesn't exist");
+        //    JFrame parent = new JFrame();
+        //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    JOptionPane.showMessageDialog(parent, "doesn't exist");
            return "doesn't exist";
         }    
         return "doesn't exist";
@@ -835,9 +850,9 @@ public class Database {
               }
         } catch (SQLException e) {
            e.printStackTrace();
-           JFrame parent = new JFrame();
-           parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           JOptionPane.showMessageDialog(parent, "doesn't exist");
+        //    JFrame parent = new JFrame();
+        //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    JOptionPane.showMessageDialog(parent, "doesn't exist");
            return -1;
         }    
         return -1;
@@ -864,9 +879,9 @@ public class Database {
                     return a;
                 }
                 else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "doesn't exist");                
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "doesn't exist");                
                 }
             } catch (SQLException e) {
                e.printStackTrace();
@@ -880,9 +895,9 @@ public class Database {
                Statement stmt = conn.createStatement();){               
             String sqlInsert = "update customer set balance = balance + "+amount+" where customer_id = " + customer_id +";";
             int countInserted = stmt.executeUpdate(sqlInsert);
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Added to balance");       
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Added to balance");       
         } catch (SQLException e) {
           e.printStackTrace();
         }          
@@ -898,16 +913,16 @@ public class Database {
                 b = r.getInt("balance");
             }
             if(amount > b){
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Not enough in balance");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Not enough in balance");
             }
             else{
                 String sqlInsert = "update customer set balance = balance - "+amount+" where customer_id = " + customer_id +";";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Added to balance");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Added to balance");
 
             }           
         } catch (SQLException e) {
@@ -920,9 +935,9 @@ public class Database {
                Statement stmt = conn.createStatement();){               
             String sqlInsert = "update product set stock = stock + "+amount+" where product_id = " + product_id +";";
             int countInserted = stmt.executeUpdate(sqlInsert);
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Added to stock");       
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Added to stock");       
         } catch (SQLException e) {
           e.printStackTrace();
         }          
@@ -948,9 +963,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -966,9 +981,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -984,9 +999,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -1002,9 +1017,9 @@ public class Database {
                   }
             } catch (SQLException e) {
                e.printStackTrace();
-               JFrame parent = new JFrame();
-               parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               JOptionPane.showMessageDialog(parent, "doesn't exist");
+            //    JFrame parent = new JFrame();
+            //    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //    JOptionPane.showMessageDialog(parent, "doesn't exist");
                return "doesn't exist";
             }    
             return "doesn't exist";
@@ -1020,16 +1035,16 @@ public class Database {
             passwordSet = psCheckpasswordExists.executeQuery();
 
             if(passwordSet.isBeforeFirst()){               
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "already exists");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "already exists");
             }
             else{
                 String sqlInsert = "update customer set pword = \""+password+"\" where customer_id = " + id +";";
                 int countInserted = stmt.executeUpdate(sqlInsert);
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "Updated");
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "Updated");
 
             }
 
@@ -1049,16 +1064,16 @@ public class Database {
                 passwordSet = psCheckpasswordExists.executeQuery();
 
                 if(passwordSet.isBeforeFirst()){               
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "already exists");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "already exists");
                 }
                 else{
                     String sqlInsert = "update customer set userName = \""+userName+"\" where customer_id = " + id +";";
                     int countInserted = stmt.executeUpdate(sqlInsert);
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Updated");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Updated");
 
                 }
         } catch (SQLException e) {
@@ -1089,7 +1104,7 @@ public class Database {
 
     }
     
-    synchronized void change_CategoryName(int id, String category_name){
+    synchronized String change_CategoryName(int id, String category_name){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement();){
         String sqlInsert = "select idcategory from category where idcategory = " + id +";";
@@ -1097,23 +1112,24 @@ public class Database {
         if(r.isBeforeFirst()){
             sqlInsert = "update category set Cname = \""+category_name+"\" where idcategory = " + id +";";
             int countInserted = stmt.executeUpdate(sqlInsert);  
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Category updated");             
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Category updated");             
+            return "category updated";
         }
         else{
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Category doesn't exist"); 
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Category doesn't exist"); 
+            return "category doesn't exist";
         }
-        int countInserted = stmt.executeUpdate(sqlInsert);
         } catch (SQLException e) {
           e.printStackTrace();
        }          
-
+        return "";
     }
     
-    synchronized void change_CategoryStatus(int id, String status){
+    synchronized String change_CategoryStatus(int id, String status){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement();){
         String sqlInsert = "select idcategory from category where idcategory = " + id +";";
@@ -1121,62 +1137,68 @@ public class Database {
         if(r.isBeforeFirst()){
             sqlInsert = "update category set status = \""+status+"\" where idcategory = " + id +";";
             int countInserted = stmt.executeUpdate(sqlInsert);
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Category updated");             
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Category updated");  
+            return "Category updated";
         }
         else{
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "Category doesn't exist"); 
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "Category doesn't exist"); 
+            return "Category doesn't exist";
         }
-        int countInserted = stmt.executeUpdate(sqlInsert);
         } catch (SQLException e) {
           e.printStackTrace();
        }          
-
+        return "";
     }
     
-    synchronized void delete_user(int id){
+    synchronized String delete_user(int id){
                     try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){
                   String sqlDelete = "delete from customer where customer_id = "+id;
                   int countDeleted = stmt.executeUpdate(sqlDelete);
                   if(countDeleted == 0){
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Doesn't exist");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Doesn't exist");
+                    return "Doesn't exist";
                   }
                   else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Deleted");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Deleted");
+                    return "Deleted";
                   }
             } catch (SQLException e) {
                e.printStackTrace();
             }    
+            return"";
 
     }
     
-    synchronized void delete_from_cart(int product_id, int customer_id){
+    synchronized String delete_from_cart(int product_id, int customer_id){
                 try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                Statement stmt = conn.createStatement();){    
                     String sqlDelete = "delete from cart_product where p_id = "+product_id+" and c_id = "+customer_id+";";
                     int countDeleted = stmt.executeUpdate(sqlDelete);
                      if(countDeleted == 0){
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Doesn't exist");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Doesn't exist");
+                    return "Doesn't exist";
                     }
                     else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Deleted");
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Deleted");
+                    return "Deleted";
                 }
             } catch (SQLException e) {
                e.printStackTrace();
             }    
-
+                return "";
     }
     
     synchronized int[] searchByCategory(String category){
@@ -1204,9 +1226,9 @@ public class Database {
                     }                       
                 }
                 else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Doesn't exist");                  
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Doesn't exist");                  
                 }
             } catch (SQLException e) {
                e.printStackTrace();
@@ -1236,9 +1258,9 @@ public class Database {
                     }
                         
                  else{
-                    JFrame parent = new JFrame();
-                    parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JOptionPane.showMessageDialog(parent, "Doesn't exist");                  
+                    // JFrame parent = new JFrame();
+                    // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // JOptionPane.showMessageDialog(parent, "Doesn't exist");                  
                 }
             } catch (SQLException e) {
                e.printStackTrace();
@@ -1246,7 +1268,7 @@ public class Database {
            return arr;     
     }
     
-    synchronized void change_ProductName(int id, String product_name){
+    synchronized String change_ProductName(int id, String product_name){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();){
             String sqlInsert = "select product_id from product where product_id = " + id +";";
@@ -1254,23 +1276,24 @@ public class Database {
             if(r.isBeforeFirst()){
                 sqlInsert = "update product set Pname = \""+product_name+"\" where product_id = " + id +";";
                 int countInserted = stmt.executeUpdate(sqlInsert);  
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "product updated");             
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "product updated");     
+                return "product updated";
         }
         else{
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            return "product doesn't exist";
         }
-        int countInserted = stmt.executeUpdate(sqlInsert);
         } catch (SQLException e) {
           e.printStackTrace();
        }          
-
+        return "";
     }    
     
-    synchronized void change_ProductPrice(int id, double price){
+    synchronized String change_ProductPrice(int id, double price){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();){
             String sqlInsert = "select price from product where product_id = " + id +";";
@@ -1278,23 +1301,25 @@ public class Database {
             if(r.isBeforeFirst()){
                 sqlInsert = "update product set price = "+price+" where product_id = " + id +";";
                 int countInserted = stmt.executeUpdate(sqlInsert);  
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "product updated");             
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "product updated");   
+                return "product updated";
         }
         else{
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            return "product doesn't exist";
         }
-        int countInserted = stmt.executeUpdate(sqlInsert);
         } catch (SQLException e) {
           e.printStackTrace();
        }          
+        return "";
 
     }    
     
-    synchronized void change_ProductCategory(int id, String category_name){
+    synchronized String change_ProductCategory(int id, String category_name){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();){
             String sqlInsert = "select category_id from product where product_id = " + id +";";
@@ -1306,23 +1331,24 @@ public class Database {
                 int Cid = rid.getInt("idcategory");
                 sqlInsert = "update product set category_id = "+Cid+" where product_id = " + id +";";
                 int countInserted = stmt.executeUpdate(sqlInsert);  
-                JFrame parent = new JFrame();
-                parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                JOptionPane.showMessageDialog(parent, "product updated");             
+                // JFrame parent = new JFrame();
+                // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // JOptionPane.showMessageDialog(parent, "product updated"); 
+                return "product updated";
         }
         else{
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "product doesn't exist");
+            return "product doesn't exist";
         }
-        int countInserted = stmt.executeUpdate(sqlInsert);
         } catch (SQLException e) {
           e.printStackTrace();
        }          
-
+        return "";
     }    
     
-    synchronized void change_ProductStatus(int id, String status){
+    synchronized String change_ProductStatus(int id, String status){
         try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement();){
         String sqlInsert = "select product_id from product where product_id = " + id +";";
@@ -1330,20 +1356,21 @@ public class Database {
         if(r.isBeforeFirst()){
             sqlInsert = "update product set status = \""+status+"\" where product_id = " + id +";";
             int countInserted = stmt.executeUpdate(sqlInsert);
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "product updated");             
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "product updated");     
+            return "product updated";
         }
         else{
-            JFrame parent = new JFrame();
-            parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            // JFrame parent = new JFrame();
+            // parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // JOptionPane.showMessageDialog(parent, "product doesn't exist"); 
+            return "product doesn't exist";
         }
-        int countInserted = stmt.executeUpdate(sqlInsert);
         } catch (SQLException e) {
           e.printStackTrace();
        }          
-
+        return "";
     }    
 	
 	synchronized void set_static_user_id(){
@@ -1553,7 +1580,9 @@ public class Database {
 //        System.out.println(db.get_product_price(3));
 //        db.change_ProductPrice(3,300.6);
 //        System.out.println(db.get_product_price(3));
-        System.out.println(db.login("esam1@gmail.com", "12124"));
+        System.out.println(db.get_user_name(db.get_UserID("ahmed12")));
+        
+//        System.out.println(db.login("esam1@gmail.com", "12124"));
     }
     
 }
