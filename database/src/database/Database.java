@@ -41,6 +41,10 @@ public class Database {
         if(!e){          
             d = new Database();
             e = true;
+            d.set_static_admin_id();
+            d.set_static_category_id();
+            d.set_static_product_id();
+            d.set_static_user_id();
             return d;
        }
         return d;
