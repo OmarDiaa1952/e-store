@@ -57,6 +57,9 @@ public class Commands {
     private final static int GET_ORDER_COUNT = 53;
     private final static int COUNT_ORDERS = 54;
     private final static int COUNT_PRODUCTS_IN_CART = 55;
+    private final static int GET_PRODUCT_ID = 56;
+    private final static int GET_CATEGORY_ID = 57;
+    private final static int GET_PRODUCT_CATEGORY = 58;
 
     
     public static String quiry(String msg){
@@ -113,18 +116,23 @@ public class Commands {
             break;
             case GET_ORDERID : 
                     res = Arrays.toString(db.get_orderID(Integer.parseInt(param[0])));
+                    res = res.substring(1, res.length() - 1);
             break;
             case GET_ALLUSERSID : 
-                    res = String.valueOf(db.get_allUsersID());
+                    res = Arrays.toString(db.get_allUsersID());
+                    res = res.substring(1, res.length() - 1);
             break;
-            case GET_ALLPRODUCTSID : 
-                    res = String.valueOf(db.get_allProductsID());
+            case GET_ALLPRODUCTSID :
+                    res = Arrays.toString(db.get_allProductsID());
+                    res = res.substring(1, res.length() - 1);
             break;
             case GET_ALLCATEGORIESID : 
-                    res = String.valueOf(db.get_allCategoriesID());
+                    res = Arrays.toString(db.get_allCategoriesID());
+                    res = res.substring(1, res.length() - 1);
             break;
             case GET_ALLORDERSID : 
-                    res = String.valueOf(db.get_allOrdersID());
+                    res = Arrays.toString(db.get_allOrdersID());
+                    res = res.substring(1, res.length() - 1);
             break;
             case GET_ORDERDATE : 
                     res = String.valueOf(db.get_orderDate(Integer.parseInt(param[0])));
@@ -155,6 +163,7 @@ public class Commands {
             break;
             case GET_ORDERPRODUCTS : 
                     res = Arrays.toString(db.get_orderProducts(Integer.parseInt(param[0])));
+                    res = res.substring(1, res.length() - 1);
             break;
             case INCREASE_BALANCE : 
                     res = db.increase_balance(Integer.parseInt(param[0]),Integer.parseInt(param[1]));
@@ -206,9 +215,11 @@ public class Commands {
             break;
             case SEARCHBYCATEGORY : 
                     res = Arrays.toString(db.searchByCategory(param[0]));
+                    res = res.substring(1, res.length() - 1);
             break;
             case SEARCHBYNAME : 
                     res = Arrays.toString(db.searchByName(param[0]));
+                    res = res.substring(1, res.length() - 1);
             break;
             case CHANGE_PRODUCTNAME : 
                     res = db.change_ProductName(Integer.parseInt(param[0]),param[1]);
@@ -233,6 +244,15 @@ public class Commands {
                 break;
             case COUNT_PRODUCTS_IN_CART:
                 res = String.valueOf(db.count_products_in_cart(Integer.parseInt(param[0])));
+                break;
+            case GET_PRODUCT_ID:
+                res = String.valueOf(db.get_ProductID(param[0]));
+                break;
+            case GET_CATEGORY_ID:
+                res = String.valueOf(db.get_CategoryID(param[0]));
+                break;
+            case GET_PRODUCT_CATEGORY:
+                res = String.valueOf(db.get_product_category(Integer.parseInt(param[0])));
                 break;
         }
         if(res == null){
