@@ -4,13 +4,16 @@ import java.io.*;
 import java.net.*;
 
 public class Server {
-    private final static String DNS = "http://localhost/dns.php?";
+    private static String DNS ;
     private ServerSocket serverSocket;
     private static String serverIP;
     private final static int START = 0;
     private final static int STOP = 1;
     private final static int CLOST = 2;
 
+    Server (String dns){
+        DNS = "http://"+dns+"/dns.php?";
+    }
     public static boolean notifyDNS(int op) throws IOException {
         String opString;
         switch (op){

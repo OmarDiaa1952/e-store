@@ -5,6 +5,7 @@
 
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  *
@@ -18,7 +19,9 @@ public class SuperMarketServer {
     public static void main(String[] args) {
         Database.create();
         int port = 10000;
-            Server server = new Server();
+        Scanner s = new Scanner(System.in);
+        String dns = s.next();
+            Server server = new Server(dns);
             while (true){
                 try{
                     server.start(port);
