@@ -121,7 +121,7 @@ public class ProfileUserController implements Initializable {
                 alert.setContentText("User has been Deleted");
                 alert.show();
                 
-                root = FXMLLoader.load(getClass().getResource("UserMainScreen.fxml"));
+                root = FXMLLoader.load(getClass().getResource("Login.fxml"));
                 stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setTitle("E-Mart");
@@ -189,6 +189,6 @@ public class ProfileUserController implements Initializable {
             Logger.getLogger(ProfileUserController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }    
+    }  
     
 }

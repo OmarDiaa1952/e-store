@@ -65,4 +65,8 @@ public class Commands {
     public final static int GET_ORDER_COUNT = 53;
     public final static int COUNT_ORDERS = 54;
     public final static int COUNT_PRODUCTS_IN_CART = 55;
+
+    public final static int GET_PRODUCT_ID = 56;
+    public final static int GET_CATEGORY_ID = 57;
+    public final static int GET_PRODUCT_CATEGORY = 58;
 }

@@ -1,8 +1,13 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
@@ -39,19 +45,19 @@ public class ShopUserController implements Initializable {
     private Button btnSearch;
 
     @FXML
-    private TableColumn<?, ?> columnAvailable;
+    private TableColumn<Product, String> columnAvailable;
 
     @FXML
-    private TableColumn<?, ?> columnCategory;
+    private TableColumn<Product, String> columnCategory;
 
     @FXML
-    private TableColumn<?, ?> columnPrice;
+    private TableColumn<Product, Float> columnPrice;
 
     @FXML
-    private TableColumn<?, ?> columnProd;
+    private TableColumn<Product, String> columnProd;
 
     @FXML
-    private TableView<?> tableShop;
+    private TableView<Product> tableShop;
 
     @FXML
     private TextField txtFieldSearch;
@@ -100,25 +106,86 @@ public class ShopUserController implements Initializable {
     
     @FXML
     public void btnAddToCart(ActionEvent event) throws IOException{
-        
+        int QtyFeild = Integer.parseInt(txtFieldQty.getText().trim());
+        // we need function to set quantity and send it to DB , command
         // getting quantity for txtFieldQty and add to user cart then maybe reset the txtField to empty
         
     }
     
     @FXML
     public void btnSearch(ActionEvent event) throws IOException{
-        
+
         // search in table
         String search = txtFieldSearch.getText().trim();
-        
-        
-        
-    }
 
+        // should be replaced into get all names_category from DB
+        String[] names_category = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+        // should be replaced into get all names_product from DB
+        String[] name_product = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+        // should be replaced into get all Status_product from DB
+        String[] status = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+        // should be replaced into get all Price_product from DB
+        String[] price_product = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+
+
+// revision
+        String[] searchCategoryIds = c.send(String.format("%d:v;%s",Commands.SEARCHBYCATEGORY,search)).split(",");
+        String[] searchNameIds = c.send(String.format("%d:v;%s",Commands.SEARCHBYNAME,search)).split(",");
+        if(searchCategoryIds != null){
+            for(int i = 0; i < searchCategoryIds.length;i++){
+                int j = Integer.parseInt(searchNameIds[i]);
+                productShop.add(new Product(name_product[j], names_category[j],Float.parseFloat(price_product[j]),status[j]));
+
+            }
+            tableShop.setItems(productShop_list);
+
+        }
+        else{
+            for(int i = 0; i < searchNameIds.length;i++){
+                int j = Integer.parseInt(searchNameIds[i]);
+                productShop.add(new Product(name_product[j], names_category[j],Float.parseFloat(price_product[j]),status[j]));
+
+            }
+            tableShop.setItems(productShop_list);
+        }
+
+    }
+    private void get_ProductsForShopping() throws IOException{
+        productShop = new ArrayList<>();
+        //FIX next lines
+        // not important but it is useful for loop
+        String[] ids = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+
+
+        // should be replaced into get all names_category from DB
+        String[] names_category = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+        // should be replaced into get all names_product from DB
+        String[] name_product = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+        // should be replaced into get all Status_product from DB
+        String[] status = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+        // should be replaced into get all Price_product from DB
+        String[] price_product = c.send(String.format("%d:v",Commands.GET_ALLPRODUCTSID)).split(",");
+
+        for(int i = 0; i < ids.length;i++)
+            productShop.add(new Product(name_product[i], names_category[i],Float.parseFloat(price_product[i]),status[i]));
+
+
+    }
+    private List<Product> productShop = new ArrayList<>();
+
+    ObservableList<Product> productShop_list = FXCollections.observableArrayList(productShop);
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        columnCategory.setCellValueFactory(new PropertyValueFactory<Product,String>("Category_Name"));
+        columnProd.setCellValueFactory(new PropertyValueFactory<Product,String>("Product_Name"));
+        columnPrice.setCellValueFactory(new PropertyValueFactory<Product,Float>("Price"));
+        columnAvailable.setCellValueFactory(new PropertyValueFactory<Product,String>("Status"));
+
+        tableShop.setItems(productShop_list);
+
+
     }    
     
 }

@@ -1,9 +1,16 @@
 package SuperMarket;
 
+import static SuperMarket.Client.c;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
@@ -39,13 +47,13 @@ public class CategoriesAdminController implements Initializable {
     private Button btnEditCategory;
 
     @FXML
-    private TableColumn<?, ?> columnCategoryID;
+    private TableColumn<Category, Integer> columnCategoryID;
 
     @FXML
-    private TableColumn<?, ?> columnCategoryName;
+    private TableColumn<Category, String> columnCategoryName;
 
     @FXML
-    private TableColumn<?, ?> columnCategoryStatus;
+    private TableColumn<Category, String> columnCategoryStatus;
 
     @FXML
     private ComboBox<String> comboStatus;
@@ -54,7 +62,7 @@ public class CategoriesAdminController implements Initializable {
     private Label lblTotCategories;
 
     @FXML
-    private TableView<?> tableCategories;
+    private TableView<Category> tableCategories;
 
     @FXML
     private TextField txtFieldCategoryName;
@@ -79,11 +87,17 @@ public class CategoriesAdminController implements Initializable {
         
         // add category to table and database
         String category = txtFieldCategoryName.getText().trim();
-        String status = comboStatus.getSelectionModel().getSelectedItem();
+        String status = comboStatus.getValue().toString();
         
+        c.send(String.format("%d:%s;%s",Commands.ADDCATEGORY,category,status));
+        get_Categories();
         
-        long category_id =  new Date().getTime();  
-        String cmd = new String().formatted("%d:%d;%s;%s;$s;%s;%s",Commands.ADDCATEGORY,category_id,category,status);
+        tableCategories.setItems(category_list);
+        
+        lblTotCategories.setText(c.send(String.format("%d:v",Commands.COUNT_CATEGORIES)));  
+        
+        //long category_id =  new Date().getTime();  
+        //String cmd = new String().formatted("%d:%d;%s;%s;$s;%s;%s",Commands.ADDCATEGORY,category_id,category,status);
    
     }
     
@@ -100,11 +114,44 @@ public class CategoriesAdminController implements Initializable {
         // Edit selected category in table and database
         
     }
+    
+    private void get_Categories() throws IOException{
+        categories_Items = new ArrayList<>();
+        //FIX next lines
+        String[] ids = c.send(String.format("%d:v",Commands.GET_ALLCATEGORIESID)).split(",");
+        for(int i = 0; i < ids.length;i++){
+            String name = c.send(String.format("%d:%d",Commands.GET_CATEGORY_NAME, Integer.parseInt(ids[i])));
+            String status = c.send(String.format("%d:%d",Commands.GET_CATEGORY_STATUS, Integer.parseInt(ids[i])));
+            categories_Items.add(new Category(Integer.parseInt(ids[1]), name, status));
+        }
+    }
 
+    
+private static List<Category> categories_Items = new ArrayList<>();
+
+    ObservableList<Category> category_list = FXCollections.observableArrayList(categories_Items);
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        comboStatus.getItems().addAll("ACTIVE","INACTIVE");
+        comboStatus.setPromptText("Select Status");
+        columnCategoryID.setCellValueFactory(new PropertyValueFactory<Category,Integer>("ID"));
+        columnCategoryName.setCellValueFactory(new PropertyValueFactory<Category,String>("Category_Name"));
+        columnCategoryStatus.setCellValueFactory(new PropertyValueFactory<Category,String>("Status"));
+
+        tableCategories.setItems(category_list);
+        
+        try {
+            lblTotCategories.setText(c.send(String.format("%d:v",Commands.COUNT_CATEGORIES)));
+        } catch (IOException ex) {
+            Logger.getLogger(CategoriesAdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     
 }
+
+
+
+
